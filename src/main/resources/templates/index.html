@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/jquery-3.1.1.js}"></script>
+
+</head>
+<body class="layui-layout-body" overflow="hidden">
+<script th:inline="javascript">
+    var a=[[@{/}]];
+        console.log(/*[[@{相对地址}]]*/);
+        console.log(a);
+     layui.use('element', function(){
+            var element = layui.element;
+            element.on('nav(menu)', function(data){
+                var id = data.attr('id');
+                var url = data.attr('data-url');
+                var a_url=a+url;
+
+                console.log(a_url);
+               var exist=$(".layui-tab-title li[lay-id='"+data[0].id+"']").length;
+                    if(exist==0&id!=null){
+                        element.tabAdd('demo', {
+                            title: data[0].text
+                            , content: '<iframe scrolling="no" frameborder="0" src="'+url+'" style="width:100%;height:430px;"></iframe>'
+                            ,id: data[0].id
+                        });
+                   }
+
+                    element.tabChange('demo', data[0].id);
+
+
+            });
+
+        })
+</script>
+
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">餐厅管理系统</div>
+
+        <!--退出部分-->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item" >
+                <a href="javascript:" th:text="${activeUser.getUsercode()}">
+                    <!--<img src="http://t.cn/RCzsdCq" class="layui-nav-img">-->
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="logout">退了</a></li>
+        </ul>
+    </div>
+<!--退出部分结束-->
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  th:each="m:${activeUser.menus}" lay-filter="menu">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:void(0);" th:text="${m.name}"></a>
+                    <dl class="layui-nav-child" th:each="p:${activeUser.permissions}" >
+                        <dd >
+                            <a href="javascript:;"  th:data-url="${p.url}" th:text="${p.name}"  th:id="${p.id}"></a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <!--tab标签代码-->
+        <div class="layui-tab" lay-allowClose="true" lay-filter="demo">
+            <ul class="layui-tab-title">
+                <li class="layui-this" lay-id="11">主页</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">123</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+
+    </div>
+</div>
+</body>
+</html>
+
+
