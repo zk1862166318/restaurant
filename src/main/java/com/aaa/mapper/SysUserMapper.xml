@@ -83,6 +83,9 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+    <if test="startRow != null and pageSize != null and pageSize != 0">
+      limit #{startRow},#{pageSize}
+    </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -227,6 +230,26 @@
   </update>
   <select id="findUserByName" parameterType="String" resultType="SysUser">
     select * from sys_user where username = #{username}
-
   </select>
+  <select id="sysUserList" resultMap="selSysUser" parameterType="SysUserExample">
+    select u.id,u.usercode,u.username,u.password,u.salt,u.locked,u.surid ,r.name from (
+    SELECT u.*,sur.id surid from sys_user u left join sys_user_role sur on u.id=sur.sys_user_id
+    ) u LEFT JOIN sys_role r on u.surid=r.id
+      <if test="startRow != null and pageSize != null and pageSize != 0">
+          limit #{startRow},#{pageSize}
+      </if>
+  </select>
+  <resultMap id="selSysUser" type="SysUser">
+    <id property="id" column="id"/>
+    <result property="usercode" column="usercode"/>
+    <result property="username" column="username"/>
+    <result property="password" column="password"/>
+    <result property="salt" column="salt"/>
+    <result property="locked" column="locked"/>
+    <collection property="sysRoles" column="user_id" ofType="SysRole">
+      <id property="id" column="id"/>
+      <result property="name" column="name"/>
+      <result property="available" column="available"/>
+    </collection>
+  </resultMap>
 </mapper>

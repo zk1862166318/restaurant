@@ -1,5 +1,7 @@
 package com.aaa.entity;
 
+import java.util.List;
+
 public class SysUser {
     private String id;
 
@@ -12,6 +14,15 @@ public class SysUser {
     private String salt;
 
     private String locked;
+    private List<SysRole> sysRoles;
+
+    public List<SysRole> getSysRoles() {
+        return sysRoles;
+    }
+
+    public void setSysRoles(List<SysRole> sysRoles) {
+        this.sysRoles = sysRoles;
+    }
 
     public String getId() {
         return id;
@@ -59,5 +70,18 @@ public class SysUser {
 
     public void setLocked(String locked) {
         this.locked = locked == null ? null : locked.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "SysUser{" +
+                "id='" + id + '\'' +
+                ", usercode='" + usercode + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
+                ", locked='" + locked + '\'' +
+                ", sysRoles=" + sysRoles +
+                '}';
     }
 }

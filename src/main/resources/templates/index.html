@@ -62,11 +62,11 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  th:each="m:${activeUser.menus}" lay-filter="menu">
-                <li class="layui-nav-item layui-nav-itemed">
+                <li class="layui-nav-item">
                     <a class="" href="javascript:void(0);" th:text="${m.name}"></a>
                     <dl class="layui-nav-child" th:each="p:${activeUser.permissions}" >
                         <dd >
-                            <a href="javascript:;"  th:data-url="${p.url}" th:text="${p.name}"  th:id="${p.id}"></a>
+                            <a href="javascript:;"  th:data-url="${p.url}" th:text="${p.name}"  th:id="${p.id}" th:if="${m.id==p.parentid}"></a>
                         </dd>
                     </dl>
                 </li>

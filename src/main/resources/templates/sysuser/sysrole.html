@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>角色查询</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/jquery-3.1.1.js}"></script>
+</head>
+<body>
+<div class="layui-btn-group">
+    <button type="button" class="layui-btn" id="addSysRole">设置角色</button>
+</div>
+<div>
+    <table class="layui-hide" id="roleAll" lay-filter="demo"></table>
+</div>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script th:inline="none">
+    layui.use(['table','layer'], function() {
+        var table = layui.table;
+        var layer = layui.layer;
+        table.render({
+            elem: '#roleAll'
+            , url: 'queryRoleData'
+            , cellMinWidth: 80
+            , cols: [[
+                {field: 'name', width: '30%', title: '角色名'}
+                , {
+                    field: 'available', width: '30%', title: '角色状态', templet: function (data) {
+                        if (data.available == 1) {
+                            return "启用"
+                        } else if (data.locked == 0) {
+                            return "禁用"
+                        }
+                    }
+                },
+                {field:'action',width:'30%',title:'操作',toolbar: '#barDemo'}
+            ]]
+            , page: true
+            , limit: 1
+            , limits: [1, 2, 4]
+        })
+        $('#addSysRole').on('click',function () {
+            layer.open({
+                title: '角色添加',
+                type: 2,
+                content: 'addSysRole',    // 设置跳转的url，跳转到对应的页面
+                area: ['400px','400px'],
+                //btn: ['添加','取消'],
+                yes: function (index,layero) {
+                    // // 获取弹出层中的form表单元素
+                    // var formSubmit=layer.getChildFrame('form', index);
+                    // // 提交form表单（不会触发表单验证）
+                    // formSubmit.submit();
+
+                    // 获取弹出层中的form表单元素
+                    var formSubmit=layer.getChildFrame('form', index);
+                    // 获取表单中的提交按钮（在我的表单里第一个button按钮就是提交按钮，使用find方法寻找即可）
+                    // var submited = formSubmit.find('button')[0];
+                    // 触发点击事件，会对表单进行验证，验证成功则提交表单，失败则返回错误信息
+                    submited.click();
+
+                    // 弹出层关闭的操作在子层的js代码中完成
+
+                }
+            });
+        });
+        table.on('tool(demo)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                layer.msg('ID：'+ data.id + ' 的查看操作');
+            } else if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if(obj.event === 'edit'){
+                //layer.alert('编辑行：<br>'+ JSON.stringify(data))
+                layer.open({
+                    title: '角色编辑',
+                    type: 2,
+                    content: 'editSysRole',    // 设置跳转的url，跳转到对应的页面
+                    area: ['400px','400px'],
+                    //btn: ['添加','取消'],
+                    yes: function (index,layero) {
+                        var formSubmit=layer.getChildFrame('form', index);
+                        submited.click();
+                    }
+                });
+            }
+        });
+    })
+</script>
+
+</body>
+</html>

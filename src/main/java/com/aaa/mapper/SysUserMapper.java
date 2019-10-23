@@ -33,4 +33,5 @@ public interface SysUserMapper {
     int updateByPrimaryKey(SysUser record);
 
     SysUser findUserByName(String username);
+    List<SysUser> sysUserList(SysUserExample example);
 }

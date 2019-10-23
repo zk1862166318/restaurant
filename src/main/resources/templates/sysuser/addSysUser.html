@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户添加</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/jquery-3.1.1.js}"></script>
+
+    <style>
+      .layui-form-item .layui-input{
+          width:195px;
+      }
+
+    </style>
+</head>
+<body>
+<br>
+<br>
+<form class="layui-form" action="" lay-filter="example">
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+            <input type="text" name="username" lay-verify="title" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">账号</label>
+        <div class="layui-input-block">
+            <input type="text" name="usercode" lay-verify="title" autocomplete="off" placeholder="请输入账号" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="password" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色</label>
+        <div class="layui-input-block">
+            <select name="id" lay-filter="aihao" multiple>
+                <option  th:each="r:${sysRoleList}" th:value="${r.id}" th:text="${r.name}"></option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">添加</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use('form', function() {
+        var form = layui.form
+
+        //监听提交
+        form.on('submit(demo1)', function (data) {
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })
+            $.post("add",data.field,function (result) {
+                layer.msg(result.msg, {
+                    icon: 1,
+                    time: 1000
+                }, function(){
+                     parent.window.location.reload();
+                });
+            });
+            return false;
+        });
+        form.on('select(filter)', function(data){
+
+        });
+
+        //自定义验证规则
+        form.verify({
+            title: function(value){
+                if(value.length < 5){
+                    return '标题至少得5个字符啊';
+                }
+            }
+            ,pass: [
+                /^[\S]{6,12}$/
+                ,'密码必须6到12位，且不能出现空格'
+            ]
+            ,content: function(value){
+                layedit.sync(editIndex);
+            }
+        });
+
+    })
+</script>
+</body>
+</html>
