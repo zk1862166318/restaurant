@@ -1,5 +1,6 @@
 package com.aaa.controller;
 
+import com.aaa.entity.Menus;
 import com.aaa.entity.Types;
 import com.aaa.service.ZkqMenuShowService;
 
@@ -20,14 +21,14 @@ public class ZkqMenuShowController {
     @RequestMapping("/types")
     @ResponseBody
     public List<Types> types(){
-
         List<Types> types = zkqMenuShowService.getTypes();
-        for(Types type :types){
-            System.out.println(type.getId());
-            System.out.println(type.getTypename());
-        }
         return types;
     }
-    //@RequestMapping("/menu")
-    //public
+    @RequestMapping("/menus")
+    @ResponseBody
+    public List<Menus> menus(Integer t_id){
+        System.out.println(t_id);
+        List<Menus> menus = zkqMenuShowService.getMenus(t_id);
+        return menus;
+    }
 }

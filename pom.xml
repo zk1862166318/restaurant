@@ -88,7 +88,18 @@
              <artifactId>fastjson</artifactId>
              <version>1.2.24</version>
         </dependency>
-
+        <!--张凯强我的xlsl读取架包-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <!--张凯强我的XSSFWorkbook和SXSSHWorkbook-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
     </dependencies>
 
     <build>

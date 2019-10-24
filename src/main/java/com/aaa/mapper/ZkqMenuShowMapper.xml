@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.aaa.mapper.ZkqMenuShowMapper">
+    <!--查询类型-->
     <select id="getTypes"  resultType="Types">
         SELECT * from types
     </select>
+    <!--查询菜品-->
+    <select id="getMenus" parameterType="java.lang.Integer" resultType="Menus">
+        select * from menus WHERE m_state = 0
+        <if test="_parameter != null and _parameter != '' and _parameter != 0">
+            and t_id = #{_parameter,jdbcType=INTEGERgt}
+        </if>
+    </select>
+    <!--单个循环添加-->
+    <!--<insert id="addOnes" parameterType="Map">-->
+        <!--insert into-->
+    <!--</insert>-->
 </mapper>

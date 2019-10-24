@@ -1,22 +1,22 @@
 package com.aaa.entity;
 
 public class Types {
-    private Integer id;
-    private String typename;
+    private Integer t_id;
+    private String t_name;
 
-    public Integer getId() {
-        return id;
+    public Integer getT_id() {
+        return t_id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setT_id(Integer t_id) {
+        this.t_id = t_id;
     }
 
-    public String getTypename() {
-        return typename;
+    public String getT_name() {
+        return t_name;
     }
 
-    public void setTypename(String typename) {
-        this.typename = typename;
+    public void setT_name(String t_name) {
+        this.t_name = t_name;
     }
 }

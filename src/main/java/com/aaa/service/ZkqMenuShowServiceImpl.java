@@ -1,5 +1,6 @@
 package com.aaa.service;
 
+import com.aaa.entity.Menus;
 import com.aaa.entity.Types;
 import com.aaa.mapper.ZkqMenuShowMapper;
 import org.springframework.stereotype.Service;
@@ -17,4 +18,15 @@ public class ZkqMenuShowServiceImpl implements ZkqMenuShowService {
     public List<Types> getTypes() {
         return zkqMenuShowMapper.getTypes();
     }
+
+    @Override
+    public List<Menus> getMenus(Integer t_id) {
+
+        return zkqMenuShowMapper.getMenus(t_id);
+    }
+
+    //
+//    public void addOnes(Map map) {
+//        zkqMenuShowMapper.addOnes(map);
+//    }
 }
