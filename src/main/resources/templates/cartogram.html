@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="container" style="height: 100%"></div>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+       <script src="../js/jquery-2.1.3.min.js"></script>
+       <script type="text/javascript">
+           var rq = new Array();
+           var num = new Array();
+           $.post('caiwutubiao',{},function(data){
+               for(var i in data){
+                   rq.push(data[i].ORDER_BUYTIME);
+                   num.push(data[i].ORDER_TOTAL);
+               };
+               var dom = document.getElementById("container");
+               var myChart = echarts.init(dom);
+               var app = {};
+               option = null;
+               option = {
+                   title: {
+                       text: '总金额走势图',
+                       show:true, // 是否显示标题
+                       //subtext: '测试数据',
+                       textStyle: {
+                           fontSize: 18, // 标题文字大小
+                       }
+                   },
+                   tooltip: {
+                       // trigger: 'axis',
+                       axisPointer: {
+                           // type: 'shadow'
+                       }
+                   },
+                   legend: {
+                       data: ['总金额']
+                   },
+                   xAxis: {
+                       type: 'category',
+                       data: rq
+                   },
+                   yAxis: {
+                       type: 'value'
+                   },
+                   series: [{
+                       data: num,
+                       type: 'bar'
+                   }]
+               };
+               ;
+               if (option && typeof option === "object") {
+                   myChart.setOption(option, true);
+               }
+           });
+       </script>
+   </body>
+</html>
