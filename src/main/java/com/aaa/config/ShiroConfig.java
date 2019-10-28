@@ -36,6 +36,7 @@ public class ShiroConfig {
         filemap.put("/js/**","anon");
         filemap.put("/layui/**","anon");
         filemap.put("/upload/**","anon");
+        filemap.put("/**/**","anon");
         //
         filemap.put("/login","anon");
         //授权
