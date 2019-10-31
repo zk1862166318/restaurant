@@ -181,4 +181,7 @@
       available = #{available,jdbcType=CHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="selSysRole" resultType="SysRole">
+    select * from sys_role
+  </select>
 </mapper>

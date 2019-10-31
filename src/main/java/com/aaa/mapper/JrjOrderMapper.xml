@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.mapper.JrjOrderMapper">
+
+    <select id="findOrderList" resultMap="selOrder" parameterType="Orders">
+        SELECT o.o_id,o.o_totalprice,o.o_time,u.u_name,u.u_tel from orders o LEFT JOIN users u on o.u_id=u.u_id
+        <if test="startRow != null and pageSize != null and pageSize != 0">
+            limit #{startRow},#{pageSize}
+        </if>
+    </select>
+    <resultMap id="selOrder" type="Orders">
+        <id property="o_id" column="o_id"/>
+        <result property="o_totalprice" column="o_totalprice"/>
+        <result property="o_time" column="o_time"/>
+        <result property="u_id" column="u_id"></result>
+        <association property="users" javaType="Users">
+            <id property="u_id" column="u_id"></id>
+            <result property="u_name" column="u_name"></result>
+            <result property="u_pwd" column="u_pwd"></result>
+            <result property="u_tel" column="u_tel"></result>
+            <result property="u_state" column="u_state"></result>
+        </association>
+    </resultMap>
+    <select id="countOrder" resultType="Integer">
+        select count(*) from orders
+    </select>
+    <select id="findOrderDetial" parameterType="Integer" resultMap="selOrderDetial">
+    SELECT od.l_id,od.l_count,od.l_sum,od.l_remarks,od.l_state,o.o_id,o.o_totalprice,o.o_time,m.m_id,m.m_name,m.m_img,m.m_price,m.m_state,t.t_name from orderdetail od LEFT JOIN orders o on od.o_id=o.o_id LEFT JOIN menus m on od.m_id=m.m_id LEFT JOIN types t on t.t_id=m.t_id WHERE o.o_id=#{o_id}
+
+    </select>
+    <resultMap id="selOrderDetial" type="OrderDetial">
+        <id property="l_id" column="l_id"></id>
+        <result property="l_count" column="l_count"></result>
+        <result property="l_sum" column="l_sum"></result>
+        <result property="l_remarks" column="l_remarks"></result>
+        <result property="l_state" column="l_state"></result>
+        <result property="o_id" column="o_id"></result>
+        <result property="m_id" column="m_id"></result>
+        <collection property="orders" ofType="Orders">
+            <id property="o_id" column="o_id"></id>
+            <result property="o_totalprice" column="o_totalprice"></result>
+            <result property="o_time" column="o_time"></result>
+            <result property="u_id" column="u_id"></result>
+        </collection>
+        <collection property="menus" ofType="Menu">
+            <id property="m_id" column="m_id"></id>
+            <result property="m_name" column="m_name"></result>
+            <result property="m_img" column="m_img"></result>
+            <result property="m_price" column="m_price"></result>
+            <result property="m_state" column="m_state"></result>
+            <result property="t_id" column="t_id"></result>
+            <collection property="types" ofType="Types">
+                <id property="t_id" column="t_id"></id>
+                <result property="t_name" column="t_name"></result>
+            </collection>
+        </collection>
+    </resultMap>
+</mapper>

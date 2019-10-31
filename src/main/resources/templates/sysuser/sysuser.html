@@ -13,33 +13,48 @@
         <button type="button" class="layui-btn" id="addSysUser">增加</button>
     </div>
     <div>
-        <table class="layui-hide" id="userAll"></table>
+        <table class="layui-hide" id="userAll" lay-filter="demo"></table>
     </div>
+    <!--<script type="text/html" id="switchTpl">-->
+        <!--<input type="checkbox" name="locked" value="" lay-skin="switch" lay-text="启用|禁用" lay-filter="enableDemo" checked id="enable">-->
+    <!--</script>-->
 </div>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+</script>
 <script th:inline="none">
-    layui.use(['table','layer'], function(){
+    layui.use(['table','layer','form'], function(){
         var table = layui.table;
         var layer=layui.layer;
+        var form=layui.form;
         table.render({
             elem: '#userAll'
             ,url:'queryData'
             ,cellMinWidth: 80
             ,cols: [[
-                {field:'id', width:'20%', title: 'ID', sort: true}
-                ,{field:'username',width:'20%', title: '用户名'}
-                ,{field:'usercode', width:'20%', title: '账号'}
-                ,{field:'locked',width:'20%', title: '用户状态',templet:function(data){
-                        if(data.locked==0){
-                            return "启用"
-                        }else if(data.locked==1){
-                            return "禁用"
+                {field:'id', width:'10%', title: 'ID', sort: true}
+                ,{field:'username',width:'10%', title: '用户名'}
+                ,{field:'usercode', width:'10%', title: '账号'}
+                ,{field:'password', title: '密码',hide:true}
+                ,{field:'locked',width:'10%', title: '用户状态' ,
+                   templet:function(data){
+                       var state = "";
+                        if(data.locked=="0"){
+                            state = "<input type='checkbox' value='" + data.id + "' id='locked' lay-filter='stat' checked='checked' name='locked'  lay-skin='switch' lay-text='启用|禁用' >";
+
+                        }else if(data.locked=="1"){
+                            state = "<input type='checkbox' value='" + data.id + "' id='locked' lay-filter='stat'  name='locked'  lay-skin='switch' lay-text='启用|禁用' >";
+
                         }
-                    }}
-                ,{field:'sysRoles.name',width:'20%',title:'角色',templet:'<div>{{d.sysRoles[0].name}}</div>'}
+                       return state;
+                   }
+                    }
+                ,{field:'sysRoles.name',width:'30%',title:'角色',templet:'<div>{{d.sysRoles[0].name}}</div>'}
+                , {field:'action',width:'20%',title:'操作',toolbar: '#barDemo'}
             ]]
             ,page: true
-            ,limit:1
-            ,limits:[1,2,4]
+            ,limit:8
+            ,limits:[1,2,4,8]
         });
         $('#addSysUser').on('click',function () {
             layer.open({
@@ -66,8 +81,59 @@
                 }
             });
         });
+        table.on('tool(demo)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'edit'){
+                //layer.alert('编辑行：<br>'+ JSON.stringify(data))
+                //layer.alert(data.id);
+                var id=data.id;
+                layer.open({
+                    title: '管理员编辑',
+                    type: 2,
+                    content: 'editSysUser?id='+id,    // 设置跳转的url，跳转到对应的页面
+                    area: ['400px','400px'],
+                    yes: function (index,layero) {
+                        var formSubmit=layer.getChildFrame('form', index);
+                        submited.click();
+                    }
+                });
+            }
+        });
 
+        //监听开关事件
+        form.on('switch(stat)', function (data) {
+           var contexts;
+           var sta;
+           var id= data.elem.value;
+            if ( data.elem.checked== true) {
+                contexts = "启用";
+               sta = 0;
+                $.ajax({
+                    type: "post",
+                    async: false,
+                    data: "id=" + id + "&locked=" + 0,
+                    url: "changeState",
+                    success: function(data) {
+                        flag = data
+                    },
+                });
 
+            } else {
+               contexts = "禁用";
+                sta = 1;
+                $.ajax({
+                    type: "post",
+                    async: false,
+                    data: "id=" + id + "&locked=" + 1,
+                    url: "changeState",
+                    success: function(data) {
+                        flag = data
+                    },
+                });
+
+            }
+
+        })
     });
 </script>
 </body>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>订单查询</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/jquery-3.1.1.js}"></script>
+</head>
+<body>
+
+<div>
+    <table class="layui-hide" id="orderAll" lay-filter="demo"></table>
+</div>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail" >查看详情 </a>
+</script>
+<script th:inline="none">
+    layui.use(['table','layer'], function(){
+        var table = layui.table;
+        var layer=layui.layer;
+        table.render({
+            elem: '#orderAll'
+            ,url:'queryOrderData'
+            ,cellMinWidth: 80
+            ,cols: [[
+                {field:'o_id', width:'10%', title: 'ID', sort: true}
+                ,{field:'u_name',width:'30%',title:'用户名',templet:'<div>{{d.users.u_name}}</div>'}
+                ,{field:'o_time', width:'10%', title: '下单时间'}
+                ,{field:'o_totalprice',width:'10%', title: '总金额'}
+                ,{field:'u_tel', width:'10%', title: '电话',templet:'<div>{{d.users.u_tel}}</div>'}
+                , {field:'action',width:'20%',title:'操作',toolbar: '#barDemo'}
+            ]]
+            ,page: true
+            ,limit:1
+            ,limits:[1,2,4]
+        });
+        table.on('tool(demo)', function(obj) {
+            var data = obj.data;
+            if (obj.event === 'detail') {
+                var id = data.o_id;
+                layer.open({
+                    title: '订单详情',
+                    type: 2,
+                    content: 'JrjOrderDetial?id=' + id,    // 设置跳转的url，跳转到对应的页面
+                    area: ['1000px', '400px'],
+                    yes: function (index, layero) {
+                        var formSubmit = layer.getChildFrame('form', index);
+                        submited.click();
+                    }
+                });
+            }
+        });
+
+            });
+</script>
+</body>
+</html>

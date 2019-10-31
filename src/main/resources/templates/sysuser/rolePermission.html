@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户查询</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/layui_ext/dtree/dtree.css}">
+    <link rel="stylesheet" th:href="@{/layui_ext/dtree/font/dtreefont.css}">
+    <script th:src="@{/layui/layui.js}" ></script>
+    <script th:src="@{/js/jquery-3.1.1.js}"></script>
+
+</head>
+<body>
+<div>
+    <input type="hidden" th:value="${mid}" id="mid">
+
+</div>
+<div>
+<ul id="demoTree" class="dtree" data-id="0"></ul>
+</div>
+<div style="padding: 10px;">
+    <button type="button" class="layui-btn layui-btn-primary" id="updateBtn">修改</button>
+</div>
+    <script type="text/javascript">
+        var mid=$("#mid").val();
+
+       layui.extend({
+           dtree:'dtree'
+         }).use(['dtree','layer','jquery','form'], function() {
+
+           var layer = layui.layer;
+           var form = layui.form;
+           var dtree = layui.dtree;
+
+
+
+           // 初始化树
+           var DemoTree = dtree.render({
+
+               elem: "#demoTree",
+               type: "all",
+               method: "POST",
+
+               // checkbarData: "change",
+               request: {"type": "1","mid":mid},//传递参数
+               initLevel: "1",
+               icon: '5',
+               // firstIconArraylayui: "0",
+               checkbar: true,
+               checkbarType: "no-all",//显示半选中状态
+
+               url: "editRolePermission" // 使用url加载（可与data加载同时存在）
+
+           })
+           dtree.on("node(demoTree)", function(obj){
+               var nodeId = obj.param.nodeId;
+
+               DTreeNode.clickNodeCheckbar(nodeId);// 点击节点选中复选框
+
+               var checkbarNodes = dtree.getCheckbarNodesParam("demoTree");
+               layer.msg(JSON.stringify(checkbarNodes));
+           });
+           // 点击按钮获取所有选中节点值
+           $("#updateBtn").click(function(){
+               var params = dtree.getCheckbarNodesParam("demoTree");
+              // layer.msg(JSON.stringify(params));
+               var ids = [];roleid=[];
+               for(var key in params){
+                   var param = params[key];
+                   ids.push(param.nodeId);
+                   roleid.push(param.mid);
+               }
+               $.ajax({
+                   type: "POST",
+                   url: "updatePermission",
+                   data: {params:ids,roleid:roleid},
+                   traditional:true,
+                   dataType: "json",
+                   success: function(data){
+
+                           layer.msg(data.msg, {
+                               icon: 1,
+                               time: 1000
+                           }, function(){
+                               var index=parent.layer.getFrameIndex(window.name);
+                               parent.layer.close(index);
+                               parent.window.location.reload();
+                           });
+
+                   },
+                   error:function(e){
+                       console.log(e);
+                    }
+           });
+           })
+
+
+           })
+
+
+    </script>
+
+
+</body>
+</html>

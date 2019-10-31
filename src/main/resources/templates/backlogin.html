@@ -14,7 +14,7 @@
     <div></div>
     <div class="admin-login-background">
         <!--<div class="admin-header">-->
-        <!--<img src="image/ex_logo.png" class="admin-logo">-->
+        <!--<img th:src="@{/images/dg.jpg}" class="admin-logo">-->
         <!--</div>-->
         <form class="layui-form" action="" id="formLogin">
             <div>
@@ -23,12 +23,14 @@
                        autocomplete="off"
                        class="layui-input admin-input admin-input-username">
             </div>
+            <br>
+            <br>
             <div>
                 <i class="layui-icon layui-icon-password admin-icon admin-icon-password"></i>
                 <input type="password" name="password"
                        placeholder="请输入密码"
                        autocomplete="off"
-                       class="layui-input admin-input">
+                       class="layui-input admin-input admin-input-password">
             </div>
             <!--<div>-->
             <!--<input type="text" name="verify"-->
@@ -72,7 +74,7 @@
                    flag=result.flag;
                    msg=result.msg;
                    if (flag) {
-                       alert(msg);
+                      // alert(msg);
                        location.href="index";
                    }else{
                        alert(msg);

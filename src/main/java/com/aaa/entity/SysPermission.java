@@ -1,5 +1,7 @@
 package com.aaa.entity;
 
+import java.util.Objects;
+
 public class SysPermission implements java.io.Serializable{
     private Long id;
 
@@ -89,5 +91,27 @@ public class SysPermission implements java.io.Serializable{
 
     public void setAvailable(String available) {
         this.available = available == null ? null : available.trim();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SysPermission)) return false;
+        SysPermission that = (SysPermission) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(type, that.type) &&
+                Objects.equals(url, that.url) &&
+                Objects.equals(percode, that.percode) &&
+                Objects.equals(parentid, that.parentid) &&
+                Objects.equals(parentids, that.parentids) &&
+                Objects.equals(sortstring, that.sortstring) &&
+                Objects.equals(available, that.available);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, name, type, url, percode, parentid, parentids, sortstring, available);
     }
 }
