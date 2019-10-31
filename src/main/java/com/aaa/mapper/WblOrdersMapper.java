@@ -8,4 +8,5 @@ import java.util.Map;
 @Mapper
 public interface WblOrdersMapper {
     List<Map<String,Object>> selTickets();
+
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aaa.mapper.WblOrderdetailMapper">
+    <select id="selectAll" resultType="map" parameterType="map">
+        SELECT  o.*,m.m_img,m.m_name,ord.o_time FROM orderdetail o ,orders ord , menus m  WHERE o.o_id=ord.o_id AND o.m_id=m.m_id LIMIT #{begin},#{end}
+    </select>
+    <select id="selectMessage"  resultType="map" parameterType="map">
+        SELECT  o.*,m.m_img,m.m_name,ord.o_time FROM orderdetail o ,orders ord , menus m   WHERE  o.o_id=ord.o_id AND o.m_id=m.m_id
+        and ord.o_time between #{Obegin} and #{Oend} LIMIT #{begin},#{end}
+    </select>
+    <select id="selectCount" resultType="int">
+        select count(*) from orderdetail
+        <where>1=1
+            <if test="l_remarks!=null and l_remarks!=''">
+                and l_remarks like concat('%',concat(#{l_remarks},'%'))
+            </if>
+        </where>
+    </select>
+</mapper>

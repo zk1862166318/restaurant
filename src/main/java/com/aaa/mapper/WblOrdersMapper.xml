@@ -5,4 +5,6 @@
         SELECT  substr(o_time,1,7) ORDER_BUYTIME,SUM(o_totalprice) ORDER_TOTAL FROM orders GROUP by  substr(o_time,1,7);
     </select>
 
+
+
 </mapper>
