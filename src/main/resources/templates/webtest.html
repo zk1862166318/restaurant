@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台订单信息</title>
+    <!--<script src="//cdn.bootcss.com/angular.js/1.5.6/angular.min.js"></script>-->
+    <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="js/jquery-3.1.1.js"></script>
+</head>
+<body>
+    <script src="js/vue.js"></script>
+    <div id="app">
+        <table>
+            <tr>
+                <th>编号</th>
+                <th>图片</th>
+                <th>菜名</th>
+                <th>时间</th>
+                <th>数量</th>
+                <th>备注</th>
+                <th>桌号</th>
+                <th>操作</th>
+            </tr>
+            <tr v-for="(itme,index) in table" :key="index">
+                <td>{{index}}</td>
+                <td><img :src="itme.m_img"></td>
+                <td>{{itme.m_name}}</td>
+                <td>{{itme.o_time}}</td>
+                <td>{{itme.l_count}}</td>
+                <td>{{itme.l_remarks}}</td>
+                <td>{{itme.o_deskNum}}</td>
+                <td>{{itme.l_id}}</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+<script>
+    var stompClient = null;
+    var _sef;
+    var app = new Vue({
+        el: '#app',
+        data: {
+            connected : false,//连接状态
+            message: '',
+            rows : [],
+            table:[
+
+            ]
+        },
+        methods:{
+
+        },
+        //加载时间
+        mounted(){
+            _sef = this;
+            var socket = new SockJS('/restaurant/my-websocket');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function(frame) {
+                _sef.connected = true;
+                stompClient.subscribe('/topic/send', function(r) {
+                    //r.body
+                    this.connected = true;
+                });
+            });
+            $.post('zkq/webtest',{},function(data){
+                _sef.table = data;
+            });
+        }
+    });
+</script>
+</html>

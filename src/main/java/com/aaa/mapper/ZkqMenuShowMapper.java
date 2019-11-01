@@ -14,5 +14,17 @@ public interface ZkqMenuShowMapper {
     //查询菜单
     public List<Menus> getMenus(Integer t_id);
     //添加菜单
-    public void  addOnes(Map map);
+    public Integer  addOnes(Map map);
+
+    public Integer addOrder(Map<String, Object> map);
+
+    public Integer selOneOrder(Map<String, Object> map);
+
+    public Integer addOrderDetail(Map<String, Object> map1);
+
+    public List<Map<String,Object>> selOrders(Integer o_id);
+
+    public List<Map<String, Object>> selInform();
+
+    public Integer ona(Integer id);
 }

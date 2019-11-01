@@ -9,9 +9,32 @@
     <select id="getMenus" parameterType="java.lang.Integer" resultType="Menus">
         select * from menus WHERE m_state = 0
         <if test="_parameter != null and _parameter != '' and _parameter != 0">
-            and t_id = #{_parameter,jdbcType=INTEGERgt}
+            and t_id = #{_parameter,jdbcType=INTEGER}
         </if>
     </select>
+    <!--添加订单-->
+    <insert id="addOrder" parameterType="Map">
+        INSERT INTO orders (o_totalprice,o_time,u_id,o_deskNum)VALUES(#{amount},#{orderDate},#{u_id},#{deskNumber})
+    </insert>
+    <!--添加过之后查询添加的id-->
+    <select id="selOneOrder" parameterType="Map" resultType="java.lang.Integer">
+        SELECT o_id from orders WHERE u_id = #{u_id} and o_deskNum = #{deskNumber} and o_time = #{orderDate}
+    </select>
+    <!--循环添加订单详情-->
+    <insert id="addOrderDetail" parameterType="Map">
+        INSERT INTO orderdetail(l_count,l_remarks,l_state,o_id,m_id)VALUES(#{count},'',0,#{o_id},#{m_id})
+    </insert>
+    <!---->
+    <select id="selOrders" parameterType="java.lang.Integer" resultType="Map">
+        select m.m_name,m.m_img,o.o_time,l.l_state,o.o_deskNum,l.l_id from orderdetail l,orders o,menus m WHERE l.o_id=o.o_id and l.m_id=m.m_id and l.o_id = #{o_id}
+    </select>
+    <select id="selInform" resultType="Map">
+        select m.m_name,m.m_img,o.o_time,l.l_state,o.o_deskNum,l.l_id,l.l_remarks,l.l_count from orderdetail l,orders o,menus m WHERE l.o_id=o.o_id and l.m_id=m.m_id and l_state = 0
+    </select>
+    <!--点击以上菜时出发的函数-->
+    <update id="ona" parameterType="java.lang.Integer">
+        UPDATE orderdetail set l_state=1 WHERE l_id =#{id}
+    </update>
     <!--单个循环添加-->
     <!--<insert id="addOnes" parameterType="Map">-->
         <!--insert into-->

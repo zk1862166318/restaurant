@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后厨大屏幕</title>
+    <script src="//cdn.bootcss.com/angular.js/1.5.6/angular.min.js"></script>
+    <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+    <!--<script src="js/vue.js"></script>-->
+
+    <script type="text/javascript">
+        /*<![CDATA[*/
+
+        var stompClient = null;
+
+        var app = angular.module('app', []);
+        app.controller('MainController', function($rootScope, $scope, $http) {
+            $scope.data = {
+                //连接状态
+                connected : false,
+                //消息
+                message : '',
+                rows : [],
+                time : ''
+            };
+
+            //连接
+            $scope.connect = function() {
+                var socket = new SockJS('/my-websocket');
+                stompClient = Stomp.over(socket);
+                stompClient.connect({}, function(frame) {
+                    // 注册发送消息
+                    //接收消息
+                    stompClient.subscribe('/topic/send', function(msg) {
+                        $scope.data.rows.push(JSON.parse(msg.body));
+                        console.log("subscribe1");
+                        $scope.data.connected = true;
+                        $scope.$apply();
+                    });
+                    // 注册推送时间回调
+                    //回调时间
+                    stompClient.subscribe('/topic/callback', function(r) {
+                        $scope.data.time = '当前服务器时间：' + r.body;
+                        console.log("subscribe2");
+                        $scope.data.connected = true;
+                        $scope.$apply();
+                    });
+
+                    $scope.data.connected = true;
+                    $scope.$apply();
+                });
+            };
+            //
+            $scope.disconnect = function() {
+                if (stompClient != null) {
+                    stompClient.disconnect();
+                }
+                $scope.data.connected = false;
+            }
+
+            //消息发送
+            $scope.send = function() {
+                console.log("send");
+                stompClient.send("/app/send", {}, JSON.stringify({
+                    'message' : $scope.data.message
+                }));
+            }
+        });
+        /*]]>*/
+    </script>
+
+</head>
+<body  ng-app="app" ng-controller="MainController">
+<button type="button" ng-disabled="data.connected" ng-click="connect()">连接</button>
+    <!--<div id="app">-->
+    <!--</div>-->
+</body>
+</html>

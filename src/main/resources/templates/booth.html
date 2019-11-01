@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台订单信息</title>
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <!--<script src="//cdn.bootcss.com/angular.js/1.5.6/angular.min.js"></script>-->
+    <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="js/jquery-3.1.1.js"></script>
+</head>
+<body>
+<table class="layui-hide" id="test"></table>
+<script src="layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['table'], function(){
+        var table = layui.table;
+        var datas = null;
+        //点击以上菜删除表格并改变列表
+
+        $.ajax({
+            url: 'zkq/webtest',
+            async:false,
+            type: 'POST',
+            success: function (data) {
+                datas = data;
+                console.log(datas.length);
+            }
+        });
+        window.ta = function (){
+            table.render({
+                elem: '#test'
+                ,method:'post'
+                ,limit:datas.length
+                ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                ,cols: [[//templet:'#zizeng'
+                    {field:'numbers',  title: 'ID',type:'numbers'} //, sort: true 可以改变排序
+                    ,{field:'m_img', title: '图片',templet:'<div><img src="{{ d.m_img }}" class="img"></div>'}
+                    ,{field:'m_name',  title: '菜名'}
+                    ,{field:'o_time',  title: '时间',templet:'<div>{{ layui.util.toDateString(d.o_time, "HH:mm:ss") }}</div>'}
+                    ,{field:'l_count', title: '数量', width: '30%', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    ,{field:'l_remarks',title: '备注'}
+                    ,{field:'o_deskNum', title: '桌号'}
+                    ,{field:'l_id',title: '操作',templet:'<div><button type="button" name="{{d.l_id}}" class="layui-btn layui-btn-normal layui-btn-radius">以上菜</button></div>'}
+                ]]
+                ,data:datas
+            });
+        }
+        var socket = new SockJS('/restaurant/my-websocket');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function(frame) {
+            stompClient.subscribe('/topic/send', function(r) {
+                var mu = r.body;
+                console.log(r.body);
+                for(var  i in mu){
+                    datas.push(mu[i]);
+                };
+                window.ta();
+            });
+        });
+        //点击上菜触发函数
+        $(document).on('click','button',function(){
+            var l_id = $(this).prop('name');
+            $.ajax({
+                url: 'zkq/ona',
+                async:false,
+                type: 'POST',
+                data:{id:l_id},
+                success: function (data) {
+                    if (data > 0) {
+                        for (var i in datas) {
+                            if (datas[i].l_id == l_id) {
+                                datas.splice(i, 1);
+                                break;
+                            }
+                        }
+                        window.ta();
+                    }
+                }
+        });});
+        window.ta();
+    });
+</script>
+</body>
+<style>
+    td>div{
+        height: 100px!important;
+        line-height: 100px!important;
+    }
+    img{
+        width: 100px;
+        height: 80px;
+    }
+</style>
+</html>
