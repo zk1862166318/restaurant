@@ -50,12 +50,12 @@
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {
             stompClient.subscribe('/topic/send', function(r) {
-                var mu = r.body;
-                console.log(r.body);
+                //JSON.parse(r.body)  数据转换
+                var mu = JSON.parse(r.body);
                 for(var  i in mu){
                     datas.push(mu[i]);
                 };
-                window.ta();
+               window.ta();
             });
         });
         //点击上菜触发函数

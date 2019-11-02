@@ -19,4 +19,7 @@ public interface ZkqMenuShowService {
     public List<Map<String, Object>> selInform();
 
     public Integer ona(Integer id);
+
+    public Integer login(Map<String, Object> map);
+
 }

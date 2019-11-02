@@ -22,11 +22,11 @@
     </select>
     <!--循环添加订单详情-->
     <insert id="addOrderDetail" parameterType="Map">
-        INSERT INTO orderdetail(l_count,l_remarks,l_state,o_id,m_id)VALUES(#{count},'',0,#{o_id},#{m_id})
+        INSERT INTO orderdetail(l_count,l_remarks,l_state,o_id,m_id,l_price,l_sum)VALUES(#{count},'',0,#{o_id},#{m_id},(select m_price from menus WHERE m_id = #{m_id}),((select m_price from menus WHERE m_id = #{m_id}) * #{count}))
     </insert>
-    <!---->
+    <!--查询订单返回后厨端-->
     <select id="selOrders" parameterType="java.lang.Integer" resultType="Map">
-        select m.m_name,m.m_img,o.o_time,l.l_state,o.o_deskNum,l.l_id from orderdetail l,orders o,menus m WHERE l.o_id=o.o_id and l.m_id=m.m_id and l.o_id = #{o_id}
+        select m.m_name,m.m_img,o.o_time,l.l_state,o.o_deskNum,l.l_id,l_count,l_remarks from orderdetail l,orders o,menus m WHERE l.o_id=o.o_id and l.m_id=m.m_id and l.o_id = #{o_id}
     </select>
     <select id="selInform" resultType="Map">
         select m.m_name,m.m_img,o.o_time,l.l_state,o.o_deskNum,l.l_id,l.l_remarks,l.l_count from orderdetail l,orders o,menus m WHERE l.o_id=o.o_id and l.m_id=m.m_id and l_state = 0
@@ -35,6 +35,14 @@
     <update id="ona" parameterType="java.lang.Integer">
         UPDATE orderdetail set l_state=1 WHERE l_id =#{id}
     </update>
+    <!--登录查询-->
+    <select id="login" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select  IFNULL((select u_id from users where u_openid = #{openid}),0) id
+    </select>
+    <!--如果没登过就添加一个-->
+    <insert id="addUser" parameterType="Map">
+        INSERT into users(u_openid,u_img,u_name)VALUES(#{openid},#{userImg},#{userName})
+    </insert>
     <!--单个循环添加-->
     <!--<insert id="addOnes" parameterType="Map">-->
         <!--insert into-->

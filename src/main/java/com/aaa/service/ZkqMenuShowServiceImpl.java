@@ -63,6 +63,23 @@ public class ZkqMenuShowServiceImpl implements ZkqMenuShowService {
         return zkqMenuShowMapper.ona(id);
     }
 
+    //微信登录
+    @Override
+    public Integer login(Map<String, Object> map) {
+        Integer num = zkqMenuShowMapper.login(map);
+        if(num <= 0){
+            Integer addnum =  zkqMenuShowMapper.addUser(map);
+                if(addnum>0){
+                     num = zkqMenuShowMapper.login(map);
+                     return num;
+                }else {
+                    return 0;
+                }
+        }else {
+            return num;
+        }
+
+    }
     //调用循环添加
     public Integer addOrderDetail(String orderDate, Integer u_id, Double amount, Integer deskNumber, Integer[] m_id, Integer[] count){
         Map<String,Object> map = new HashMap<String,Object>();

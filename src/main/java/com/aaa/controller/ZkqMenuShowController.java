@@ -9,9 +9,9 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,13 +26,14 @@ public class ZkqMenuShowController {
     private SimpMessagingTemplate messagingTemplate;
 
    // WebLink wsLink = new WebLink();
-
+    //类型的查询
     @RequestMapping("/types")
     @ResponseBody
     public List<Types> types(){
         List<Types> types = zkqMenuShowService.getTypes();
         return types;
     }
+    //菜单的查询
     @RequestMapping("/menus")
     @ResponseBody
     public List<Menus> menus(Integer t_id){
@@ -51,6 +52,7 @@ public class ZkqMenuShowController {
         return num;
     }
  //   @Scheduled(fixedRate = 1000)
+    //自动推送浏览器
     @SendTo("/topic/send")
     @ResponseBody
     public String send(String orderDate, Integer u_id,Integer deskNumber){
@@ -58,16 +60,29 @@ public class ZkqMenuShowController {
         messagingTemplate.convertAndSend("/topic/send", socket);
         return "send";
     }
-    @RequestMapping(value = "/webtest",method = RequestMethod.POST)
+    //第一此加载访问时显示没有上菜的数据   ,method = RequestMethod.POST
+    @RequestMapping(value = "/webtest")
     @ResponseBody
     public List<Map<String,Object>> webtest(){
         List<Map<String,Object>> list =  zkqMenuShowService.selInform();
         return list;
     }
+    //点击以上菜改变状态
     @RequestMapping("/ona")
     @ResponseBody
     public Integer ona(Integer id){
         Integer num = zkqMenuShowService.ona(id);
         return num;
+    }
+    //拉起微信登录与数据库对比
+    @RequestMapping("/login")
+    @ResponseBody
+    public Integer login(String userImg,String userName,String openid){
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("userImg",userImg);
+        map.put("userName",userName);
+        map.put("openid",openid);
+        Integer num =  zkqMenuShowService.login(map);
+      return num;
     }
 }

@@ -27,4 +27,8 @@ public interface ZkqMenuShowMapper {
     public List<Map<String, Object>> selInform();
 
     public Integer ona(Integer id);
+
+    public Integer login(Map<String, Object> map);
+
+    public Integer addUser(Map<String, Object> map);
 }
