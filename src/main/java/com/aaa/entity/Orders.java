@@ -8,7 +8,16 @@ public class Orders {
     private double o_totalprice;
     private String o_time;
     private int u_id;
+    private int o_deskNum;
     private Users users;
+
+    public int getO_deskNum() {
+        return o_deskNum;
+    }
+
+    public void setO_deskNum(int o_deskNum) {
+        this.o_deskNum = o_deskNum;
+    }
 
     public Users getUsers() {
         return users;
