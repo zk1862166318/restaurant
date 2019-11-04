@@ -10,7 +10,7 @@
     </insert>
     <select id="foodSel" parameterType="Map" resultType="MenusDB">
         SELECT m.m_id,m.m_name,m.m_img,m.m_price,m.m_state,t.t_name from menus m
-        LEFT JOIN types t ON t.t_id = m.t_id where m.m_id &gt; (#{page}-1)*#{limit} and m.m_state=0 order by m.m_id asc limit #{limit}
+        LEFT JOIN types t ON t.t_id = m.t_id where m.m_id &gt; (#{page}-1)*#{limit} and m.m_state=#{m_state} order by m.m_id asc limit #{limit}
     </select>
     <update id="foodUpd" parameterType="Map">
         update menus set m_name=#{m_name},m_price=#{m_price},m_img=#{m_img},t_id=#{t_id} where m_id=#{m_id}

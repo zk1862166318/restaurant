@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>菜品信息修改</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <script src="../js/jquery-3.1.1.js"></script>
+    <script src="../layui/layui.js"></script>
+</head>
+<body id="body">
+    <table class="layui-hide" id="test" lay-filter="table"></table>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">上架</a>
+    </script>
+</body>
+<script>
+    layui.use("table",function () {
+        var table = layui.table,
+            $ = layui.$;
+        //表格数据
+        table.render({
+            elem: '#test'
+            ,url:'foodSel?m_state=1'
+            ,cols: [[
+                {field:'m_id', width:'5%', title: 'ID', sort: true,},
+                {img:'m_img', width:'9%',title: '图片',templet:'<div><img src="\\restaurant\\{{ d.m_img }}" ></div>'},
+                {field:'m_name', width:'18%', title: '菜品名称', sort: true},
+                {field:'m_price', width:'18%', title: '价格', sort: true},
+                {field:'t_name', width:'15%', title: '类型', sort: true},
+                {field:'m_state', width:'15%', title: '状态',
+                    templet:function (d) {
+                        if (d.m_state==1){
+                            return '已下架';
+                        }else {
+                            return '已上架';
+                        }
+                    }
+                },
+                {fixed: 'right', width:'20%', align:'center', toolbar: '#barDemo'}
+            ]],
+            limit:10,
+            page: true
+        });
+
+
+
+
+    });
+</script>
+</html>

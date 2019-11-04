@@ -22,6 +22,9 @@
         height: 100px;
         margin-left: 109px;
     }
+    #popUpdateTest{
+        margin: 10px;
+    }
 
 </style>
 </head>
@@ -43,7 +46,7 @@
             //表格数据
             table.render({
                 elem: '#test'
-                ,url:'foodSel'
+                ,url:'foodSel?m_state=0'
                 ,cols: [[
                     {field:'m_id', width:'5%', title: 'ID', sort: true,},
                     {img:'m_img', width:'9%',title: '图片',templet:'<div><img src="\\restaurant\\{{ d.m_img }}" ></div>'},

@@ -99,10 +99,11 @@ public class FoodMassageController {
 
     @RequestMapping("/foodSel")
     @ResponseBody
-    public MenusVO foodSel(int limit, Integer page) {
+    public MenusVO foodSel(int limit, Integer page,Integer m_state) {
         Map map = new HashMap();
         map.put("limit",limit);
         map.put("page",page);
+        map.put("m_state",m_state);
         List<MenusDB> order = foodMassageService.foodSel(map);
         int count = foodMassageService.countAll();
         MenusVO menusVO = new MenusVO();
@@ -116,7 +117,7 @@ public class FoodMassageController {
     public String toUpd(Model model){
         List<Type> types = selType();
         model.addAttribute("type", types);
-        return "foodMassage/foodUpd";
+        return "foodSelUp";
     }
 
     @RequestMapping("/foodUpd")
