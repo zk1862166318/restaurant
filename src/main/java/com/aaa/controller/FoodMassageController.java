@@ -56,7 +56,6 @@ public class FoodMassageController {
             file2.mkdirs();
         }
         String savepath = filePath + filename;
-        System.out.println("轮播图保存路径:" + savepath);
         Map map = new HashMap<String, Object>();
         try {
             //保存文件到服务器
@@ -104,8 +103,10 @@ public class FoodMassageController {
         map.put("limit",limit);
         map.put("page",page);
         map.put("m_state",m_state);
+        int start = (page-1)*limit;
+        map.put("start",start);
         List<MenusDB> order = foodMassageService.foodSel(map);
-        int count = foodMassageService.countAll();
+        int count = foodMassageService.countAll(m_state);
         MenusVO menusVO = new MenusVO();
         menusVO.setCode(0);
         menusVO.setCount(count);
@@ -126,11 +127,9 @@ public class FoodMassageController {
         Map map = new HashMap();
         map.put("m_name",nm_name);
         map.put("m_price",nm_price);
-        String filename = "img/"+nm_img;
-        map.put("m_img",filename);
+        map.put("m_img",nm_img);
         map.put("m_id",nm_id);
         map.put("t_id",nt_id);
-        System.out.println(map);
         int i = foodMassageService.foodUpd(map);
         return i;
     }

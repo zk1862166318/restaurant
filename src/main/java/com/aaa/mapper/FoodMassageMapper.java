@@ -17,5 +17,5 @@ public interface FoodMassageMapper {
     public List<MenusDB> foodSel(Map map);
     public int foodUpd(Map map);
     public int stateUpd(Map map);
-    public int countAll();
+    public int countAll(Integer m_state);
 }

@@ -7,6 +7,28 @@
     <script src="../js/jquery-3.1.1.js"></script>
     <script src="../layui/layui.js"></script>
 </head>
+<style>
+    td>div{
+        height: 100px!important;
+        line-height: 100px!important;
+        width: auto;
+        font-size: 20px!important;
+    }
+    .layui-table-page,#layui-table-page1{
+        height: 75px;
+    }
+    #demo1{
+        left: 100px;
+        width: 100px;
+        height: 100px;
+        margin-left: 109px;
+    }
+    #popUpdateTest{
+        margin: 10px;
+    }
+</style>
+
+
 <body id="body">
     <table class="layui-hide" id="test" lay-filter="table"></table>
     <script type="text/html" id="barDemo">
@@ -15,9 +37,14 @@
     </script>
 </body>
 <script>
-    layui.use("table",function () {
-        var table = layui.table,
-            $ = layui.$;
+    layui.use(['table','layer','form','upload'], function(){
+        var $ = layui.$,
+            table = layui.table,
+            layer=layui.layer,
+            form = layui.form;
+        var upload = layui.upload;
+        var img = null;
+
         //表格数据
         table.render({
             elem: '#test'
@@ -39,13 +66,189 @@
                 },
                 {fixed: 'right', width:'20%', align:'center', toolbar: '#barDemo'}
             ]],
-            limit:10,
+            limit:5,
+            limits:[5,6,7,8,9],
             page: true
         });
 
 
-
-
+        //监听行工具事件
+        table.on('tool(table)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data //获得当前行数据
+                , layEvent = obj.event; //获得 lay-event 对应的值
+            if (layEvent === 'edit') {
+                $('#nm_id').val(data.m_id);
+                $('#nm_name').val(data.m_name);
+                $('#nm_price').val(data.m_price);
+                var name = data.t_name;
+                //获取当前行的图片路径
+                var m_img = data.m_img;
+                //定义空的变量,将判断的图片路径赋值
+                var nm_img = null;
+                var image = "\\restaurant\\"+data.m_img;
+                $("#demo1").attr("src",image);
+                //异步请求放入类型下拉框
+                $.ajax({
+                    url:'type',
+                    type:"post",
+                    success:function (obj) {
+                        var str = "";
+                        for(var i in obj){
+                            if(name!=(obj[i].t_name)){
+                                str +="<option value="+obj[i].t_id+">"+obj[i].t_name+"</option>"
+                            }else {
+                                str +="<option value="+obj[i].t_id+" selected>"+obj[i].t_name+"</option>"
+                            }
+                        }
+                        $("#nt_name").html(str);
+                        form.render("select");
+                    }
+                });
+                layer.open({
+                    type:1,
+                    maxmin:true,
+                    area:['800px','500px'],
+                    title:'菜品信息编辑',
+                    content:$('#popUpdateTest'),
+                    btn: ['提交修改', '取消'],
+                    yes: function(index){
+                        //判断图片是否重新上传
+                        if (img==null){
+                            nm_img = m_img;
+                        }else {
+                            nm_img = "img/"+img;
+                        }
+                        $.ajax({
+                            type: 'post',
+                            url: 'foodUpd',
+                            data: {
+                                nm_id:$('#nm_id').val(),
+                                nm_name:$('#nm_name').val(),
+                                nm_price:$('#nm_price').val(),
+                                nt_id:$('#nt_name').val(),
+                                nm_img:nm_img
+                            },
+                            success: function(data){
+                                if(data==1){
+                                    layer.open({
+                                        content: '已成功更新数据！',
+                                        yes: function(index, layero){
+                                            layer.close(index);
+                                            window.location.reload();
+                                        }
+                                    });
+                                }else{
+                                    layer.msg('更新失败，请稍后重试！');
+                                }
+                            }
+                        });
+                    }
+                });
+                var uploadInst = upload.render({
+                    elem: '#uploadI',
+                    url: '/restaurant/foodMassage/uploading',
+                    before: function (obj) {
+                        //预读本地文件示例，不支持ie8
+                        obj.preview(function (index, file, result) {
+                            //获取图片的文件名
+                            img = file.name;
+                            $('#demo1').attr('src', result); //图片链接（base64）
+                        });
+                    },
+                    //done 上传后的回调函数 res 接口返回的数据
+                    done: function (res) {
+                        //如果上传失败
+                        if (res.code = 0) {
+                            return layer.msg('上传失败');
+                        }
+                        //上传成功
+                        else{
+                            // return layer.msg('上传成功');
+                        }
+                    },
+                    //请求异常回调
+                    error: function () {
+                        //演示失败状态，并实现重传
+                        var demoText = $('#demoText');
+                        demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                        demoText.find('.demo-reload').on('click', function () {
+                            uploadInst.upload();
+                        });
+                    }
+                });
+            } else if (layEvent === 'del') {
+                layer.confirm('确定上架吗?', function (index) {
+                    $.ajax({
+                        url: "foodState",
+                        type: "POST",
+                        data: {
+                            m_id:data.m_id,
+                            m_state:data.m_state
+                        },
+                        success: function (msg) {
+                            if (msg == "1") {
+                                //删除这一行
+                                obj.del();
+                                //关闭弹框
+                                layer.close(index);
+                                layer.msg("删除成功", {icon: 6});
+                            } else {
+                                layer.msg("删除失败", {icon: 5});
+                            }
+                            window.location.reload();
+                        }
+                    });
+                },function (index) {
+                    layer.close(index);
+                });
+                return false;
+            }
+        });
     });
+
 </script>
+<div class="layui-row" id="popUpdateTest" style="display:none;">
+
+    <form class="layui-form dataFrm" action="/foodMassage/foodUpd" enctype="multipart/form-data">
+        <div style="display:none;">
+            <span ID="nm_id" name="nm_id"></span>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">菜品名称</label>
+            <div class="layui-input-block" style="width: 200px;">
+                <input type="text" name="nm_name" id="nm_name" lay-filter="m_name" required  lay-verify="required" placeholder="菜品名称" autocomplete="off" class="layui-input m_name">
+
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">价格</label>
+            <div class="layui-input-inline">
+                <input type="text" name="nm_price" id="nm_price" required lay-verify="required" placeholder="0" autocomplete="off" class="layui-input m_price">
+            </div>
+            <div class="layui-form-mid layui-word-aux">元</div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">类型</label>
+            <div class="layui-input-block" style="width: 200px;">
+                <select name="nt_name" id="nt_name" lay-verify="required" >
+                    <option value="0">请选择类型</option>
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <label class="layui-form-label">菜品图片</label>
+            <div class="layui-upload">
+                <button class="layui-btn" id="uploadI" type="button">上传图片</button>
+                <div class="layui-upload-list img">
+                    <img class="layui-upload-img" id="demo1" name="file">
+                    <p id="demoText"></p>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
 </html>

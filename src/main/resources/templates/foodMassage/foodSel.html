@@ -64,7 +64,8 @@
                     },
                     {fixed: 'right', width:'20%', align:'center', toolbar: '#barDemo'}
                 ]],
-                limit:10,
+                limit:5,
+                limits:[5,6,7,8,9],
                 page: true
             });
 
@@ -78,10 +79,10 @@
                    $('#nm_name').val(data.m_name);
                    $('#nm_price').val(data.m_price);
                    var name = data.t_name;
-                   var image = data.m_img;
+                   var m_img = data.m_img;
+                   var image = "\\restaurant\\"+data.m_img;
                     var nm_img = null;
-                    img = "\\restaurant\\"+image;
-                   $("#demo1").attr("src",img);
+                   $("#demo1").attr("src",image);
                    //异步请求放入类型下拉框
                    $.ajax({
                        url:'type',
@@ -108,9 +109,9 @@
                        btn: ['提交修改', '取消'],
                        yes: function(index){
                            if (img==null){
-                               nm_img = image;
+                               nm_img = m_img;
                            }else {
-                               nm_img = img;
+                               nm_img = "img/"+img;
                            }
                            $.ajax({
                                type: 'post',
@@ -137,7 +138,6 @@
                                }
                            });
                        }
-
                    });
                     var uploadInst = upload.render({
                         elem: '#uploadI',
@@ -190,6 +190,7 @@
                                 } else {
                                     layer.msg("删除失败", {icon: 5});
                                 }
+                                window.location.reload();
                             }
                         });
                     },function (index) {
@@ -244,45 +245,6 @@
             </div>
         </form>
     </div>
-        <script>
-            // 表单提交
-            layui.use(['form','upload'], function(){
-                var form = layui.form,
-                    $ = layui.jquery,
-                    upload = layui.upload;
 
-                // 文件上传
-                var uploadInst = upload.render({
-                    elem: '#uploadIMG',
-                    url: '/restaurant/foodMassage/uploading',
-                    before: function (obj) {
-                        //预读本地文件示例，不支持ie8
-                        obj.preview(function (index, file, result) {
-                            $('#nm_img').attr('src', result); //图片链接（base64）
-                        });
-                    },
-                    //done 上传后的回调函数 res 接口返回的数据
-                    done: function (res) {
-                        //如果上传失败
-                        if (res.code = 0) {
-                            return layer.msg('上传失败');
-                        }
-                        //上传成功
-                        else{
-                            return layer.msg('上传成功');
-                        }
-                    },
-                    //请求异常回调
-                    error: function () {
-                        //演示失败状态，并实现重传
-                        var demoText = $('#demoText');
-                        demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-                        demoText.find('.demo-reload').on('click', function () {
-                            uploadInst.upload();
-                        });
-                    }
-                });
-            });
-        </script>
 </body>
 </html>
