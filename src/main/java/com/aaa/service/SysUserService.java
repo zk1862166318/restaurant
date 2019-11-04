@@ -39,5 +39,7 @@ public interface SysUserService {
     //修改权限
     public int deletePer(String roleid);
     void addSysRolePermission(List<SysRolePermission> sprlist);
+    //
+    List<SysRole> findRoleAll();
 
 }

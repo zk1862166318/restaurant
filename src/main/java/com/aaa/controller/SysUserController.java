@@ -64,10 +64,23 @@ public class SysUserController {
         //3.登录
         boolean flag = true;
         String msg = "";
+        SysUser sysUserByUserCode=null;
         try {
+            sysUserByUserCode = sysService.findSysUserByUserCode(sysUser.getUsercode());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+        if(sysUserByUserCode.getLocked().equals("0")){
             subject.login(token);
+
             msg = "登陆成功！";
             map.put("flag", flag);
+
+        }else{
+            msg="该账户已被禁用";
+            map.put("flag",false);
+        }
 
 
         } catch (Exception exception) {
@@ -113,7 +126,7 @@ public class SysUserController {
 
     @RequestMapping("user/addSysUser")
     public String addSysUser(Model model) {
-        List<SysRole> sysRoleList = sysUserService.findSysRoleList();
+        List<SysRole> sysRoleList = sysUserService.findRoleAll();
         model.addAttribute("sysRoleList", sysRoleList);
         return "sysuser/addSysUser";
     }
@@ -178,6 +191,9 @@ public class SysUserController {
         SysRole sr=new SysRole();
         sr.setId(id);
         sr.setAvailable(available);
+        if(available.equals("1")){
+            sysUserService.deletePer(id);
+        }
         sysUserService.changeRoleState(sr);
         return "sysuser/sysrole";
     }
@@ -267,15 +283,19 @@ public class SysUserController {
             father.setIsLast(false);
             father.setIconClass("-1");
             int fid = 0 ;
-            for (int i = 0; i < sid.size(); i++) {
-                fid++;
-                if(f.getId()==sid.get(i).getId()) {
-                    father.setCheckArr(this.checkArrs("1"));
-                    break;
-                }else{
-                    if(sid.size() == fid){
-                        father.setCheckArr(this.checkArrs("0"));
+            if(sid.size()==0){
+                father.setCheckArr(this.checkArrs("0"));
+            }else {
+                for (int i = 0; i < sid.size(); i++) {
+                    fid++;
+                    if (f.getId() == sid.get(i).getId()) {
+                        father.setCheckArr(this.checkArrs("1"));
                         break;
+                    } else {
+                        if (sid.size() == fid) {
+                            father.setCheckArr(this.checkArrs("0"));
+                            break;
+                        }
                     }
                 }
             }
@@ -288,15 +308,19 @@ public class SysUserController {
                 d.setTitle(s.getName());
                 d.setIsLast(true);
                 int sonid = 0 ;
-                for (int i = 0; i < sid.size(); i++) {
-                    sonid++;
-                    if(s.getId()==sid.get(i).getId()) {
-                        d.setCheckArr(this.checkArrs("1"));
-                        break;
-                    }else{
-                        if(sid.size() ==sonid){
-                            d.setCheckArr(this.checkArrs("0"));
+                if(sid.size()==0){
+                    d.setCheckArr(this.checkArrs("0"));
+                }else {
+                    for (int i = 0; i < sid.size(); i++) {
+                        sonid++;
+                        if (s.getId() == sid.get(i).getId()) {
+                            d.setCheckArr(this.checkArrs("1"));
                             break;
+                        } else {
+                            if (sid.size() == sonid) {
+                                d.setCheckArr(this.checkArrs("0"));
+                                break;
+                            }
                         }
                     }
                 }

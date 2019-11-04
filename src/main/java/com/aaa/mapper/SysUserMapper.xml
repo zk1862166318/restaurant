@@ -292,4 +292,9 @@ select sys_role_id from sys_user_role WHERE sys_role_id=#{sys_role_id}
         (#{srp.sysRoleId},#{srp.sysPermissionId})
       </foreach>
   </insert>
+<!---->
+  <select id="findRoleAll" resultType="SysRole">
+    select * from sys_role where available=0
+  </select>
+
 </mapper>

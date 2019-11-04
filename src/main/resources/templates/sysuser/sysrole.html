@@ -89,9 +89,11 @@
         });
         //监听开关事件
         form.on('switch(stat)', function (data) {
+
             var contexts;
             var sta;
             var id= data.elem.value;
+
             if ( data.elem.checked== true) {
                 contexts = "启用";
                 sta = 0;
@@ -105,19 +107,24 @@
                     },
                 });
 
-            } else {
+            } else if(data.elem.value!='sr-000001'){
                 contexts = "禁用";
                 sta = 1;
-                $.ajax({
-                    type: "post",
-                    async: false,
-                    data: "id=" + id + "&available=" + 1,
-                    url: "changeRoleState",
-                    success: function(data) {
-                        flag = data
-                    },
-                });
 
+                    $.ajax({
+                        type: "post",
+                        async: false,
+                        data: "id=" + id + "&available=" + 1,
+                        url: "changeRoleState",
+                        success: function(data) {
+                            flag = data
+                        }
+                    });
+
+
+
+            }else if(data.elem.value=='sr-000001'){
+                table.reload('roleAll');
             }
 
         })

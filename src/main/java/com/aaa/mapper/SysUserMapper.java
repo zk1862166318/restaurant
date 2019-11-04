@@ -40,4 +40,5 @@ public interface SysUserMapper {
     int updateByID(SysUserRole sysUserRole);
     int changeState(SysUser su);
     int changeRoleState(SysRole sr);
+    List<SysRole> findRoleAll();
 }

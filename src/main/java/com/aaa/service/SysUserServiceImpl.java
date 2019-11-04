@@ -130,7 +130,7 @@ public class SysUserServiceImpl implements SysUserService {
         SysRole role=new SysRole();
         role.setId(sysRole.getId());
         role.setName(sysRole.getName());
-        role.setAvailable("1");
+        role.setAvailable("0");
         int insert = sysRoleMapper.insert(role);
         return insert;
     }
@@ -196,6 +196,11 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public void addSysRolePermission(List<SysRolePermission> sprlist) {
         sysUserMapper.addSysRolePermission(sprlist);
+    }
+
+    @Override
+    public List<SysRole> findRoleAll() {
+        return sysUserMapper.findRoleAll();
     }
 
 
