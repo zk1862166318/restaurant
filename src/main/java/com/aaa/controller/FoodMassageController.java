@@ -1,9 +1,9 @@
 package com.aaa.controller;
 
 
-import com.aaa.entity.OrderVO;
-import com.aaa.entity.Orders;
-import com.aaa.entity.OrdersDB;
+import com.aaa.entity.MenusDB;
+import com.aaa.entity.MenusVO;
+import com.aaa.entity.Menus;
 import com.aaa.entity.Type;
 import com.aaa.service.FoodMassageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +13,6 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
-import javax.sound.midi.Soundbank;
-import java.io.Console;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -83,15 +81,15 @@ public class FoodMassageController {
     @RequestMapping("/foodAdd")
     @ResponseBody
     public String foodAdd(String m_name,int m_price,String m_img,int m_state,int t_id) {
-        Orders orders = new Orders();
+        Menus Menus = new Menus();
         System.out.println(m_img);
         String filename = "img/"+m_img;
-        orders.setM_img(filename);
-        orders.setM_name(m_name);
-        orders.setM_price(m_price);
-        orders.setM_state(m_state);
-        orders.setT_id(t_id);
-        int foodAdd = foodMassageService.foodAdd(orders);
+        Menus.setM_img(filename);
+        Menus.setM_name(m_name);
+        Menus.setM_price(m_price);
+        Menus.setM_state(m_state);
+        Menus.setT_id(t_id);
+        int foodAdd = foodMassageService.foodAdd(Menus);
         if (foodAdd == 1) {
             return "1";
         }else {
@@ -101,17 +99,17 @@ public class FoodMassageController {
 
     @RequestMapping("/foodSel")
     @ResponseBody
-    public OrderVO foodSel(int limit,Integer page) {
+    public MenusVO foodSel(int limit, Integer page) {
         Map map = new HashMap();
         map.put("limit",limit);
         map.put("page",page);
-        List<OrdersDB> order = foodMassageService.foodSel(map);
+        List<MenusDB> order = foodMassageService.foodSel(map);
         int count = foodMassageService.countAll();
-        OrderVO orderVO = new OrderVO();
-        orderVO.setCode(0);
-        orderVO.setCount(count);
-        orderVO.setData(order);
-        return orderVO;
+        MenusVO menusVO = new MenusVO();
+        menusVO.setCode(0);
+        menusVO.setCount(count);
+        menusVO.setData(order);
+        return menusVO;
     }
 
     @RequestMapping("/toUpd")

@@ -3,7 +3,7 @@ package com.aaa.entity;
 import java.util.List;
 import java.util.Map;
 
-public class OrderVO {
+public class MenusVO {
     private Integer code;
     private String msg;
     private Integer count;

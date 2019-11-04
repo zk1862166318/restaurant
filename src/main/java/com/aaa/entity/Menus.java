@@ -1,6 +1,6 @@
 package com.aaa.entity;
 
-public class Orders {
+public class Menus {
     private int m_id;
     private String m_name;
     private String m_img;
@@ -56,7 +56,7 @@ public class Orders {
         this.t_id = t_id;
     }
 
-    public Orders(int m_id, String m_name, String m_img, double m_price, int m_state, int t_id) {
+    public Menus(int m_id, String m_name, String m_img, double m_price, int m_state, int t_id) {
         this.m_id = m_id;
         this.m_name = m_name;
         this.m_img = m_img;
@@ -65,12 +65,12 @@ public class Orders {
         this.t_id = t_id;
     }
 
-    public Orders() {
+    public Menus() {
     }
 
     @Override
     public String toString() {
-        return "Orders{" +
+        return "Menus{" +
                 "m_id=" + m_id +
                 ", m_name='" + m_name + '\'' +
                 ", m_img='" + m_img + '\'' +

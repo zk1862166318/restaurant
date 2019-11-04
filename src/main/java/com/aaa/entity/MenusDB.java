@@ -1,6 +1,6 @@
 package com.aaa.entity;
 
-public class OrdersDB {
+public class MenusDB {
     private int m_id;
     private String m_name;
     private String m_img;
@@ -8,7 +8,7 @@ public class OrdersDB {
     private int m_state;
     private String t_name;
 
-    public OrdersDB(int m_id, String m_name, String m_img, double m_price, int m_state, String t_name) {
+    public MenusDB(int m_id, String m_name, String m_img, double m_price, int m_state, String t_name) {
         this.m_id = m_id;
         this.m_name = m_name;
         this.m_img = m_img;
@@ -19,7 +19,7 @@ public class OrdersDB {
 
     @Override
     public String toString() {
-        return "OrdersDB{" +
+        return "MenusDB{" +
                 "m_id=" + m_id +
                 ", m_name='" + m_name + '\'' +
                 ", m_img='" + m_img + '\'' +
@@ -29,7 +29,7 @@ public class OrdersDB {
                 '}';
     }
 
-    public OrdersDB() {
+    public MenusDB() {
     }
 
     public int getM_id() {

@@ -1,7 +1,7 @@
 package com.aaa.service;
 
-import com.aaa.entity.Orders;
-import com.aaa.entity.OrdersDB;
+import com.aaa.entity.MenusDB;
+import com.aaa.entity.Menus;
 import com.aaa.entity.Type;
 import com.aaa.mapper.FoodMassageMapper;
 import org.springframework.stereotype.Service;
@@ -22,12 +22,12 @@ public class FoodMassageServiceimpl implements FoodMassageService {
     }
 
     @Override
-    public int foodAdd(Orders orders) {
-        return foodMassageMapper.foodAdd(orders);
+    public int foodAdd(Menus Menus) {
+        return foodMassageMapper.foodAdd(Menus);
     }
 
     @Override
-    public List<OrdersDB> foodSel(Map map) {
+    public List<MenusDB> foodSel(Map map) {
         return foodMassageMapper.foodSel(map);
     }
 
