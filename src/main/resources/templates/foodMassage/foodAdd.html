@@ -52,7 +52,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">上下架状态</label>
             <div class="layui-input-block">
-                <input type="checkbox" name="state" lay-skin="switch" lay-text="上架|下架" checked value="1" disabled>
+                <input type="checkbox" name="state" lay-skin="switch" lay-text="上架|下架" checked value="0" disabled>
             </div>
         </div>
         <div class="layui-form-item">
@@ -109,8 +109,6 @@
                 obj.preview(function (index, file, result) {
                     //获取图片的文件名
                     img = file.name;
-                    console.log(img)
-                    console.log(result)
                     $('#demo1').attr('src', result); //图片链接（base64）
                 });
             },

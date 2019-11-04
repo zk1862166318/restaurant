@@ -47,15 +47,12 @@ public class FoodMassageController {
     @RequestMapping("/uploading")
     public Map<String, Object> uploading(@RequestParam("file") MultipartFile file,HttpServletRequest request) {
         Assert.notNull(file, "上传文件不能为空");
-        String filePath = request.getSession().getServletContext().getRealPath("img/");
-//        String a = System.currentTimeMillis();
-        String filename = file.getOriginalFilename();
-        //确保路径存在
-        File file2 = new File(filePath);
-        if (!file2.exists()) {
-            file2.mkdirs();
+        File file1 = new File("c:\\img");
+        if (!file1.exists()){
+            file1.mkdirs();
         }
-        String savepath = filePath + filename;
+        String filename= file.getOriginalFilename();
+        String savepath = file1+"/"+filename;
         Map map = new HashMap<String, Object>();
         try {
             //保存文件到服务器
