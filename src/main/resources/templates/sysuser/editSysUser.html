@@ -41,7 +41,7 @@
         <div class="layui-input-block" >
             <select name="roleid" lay-filter="role"  xm-select="roleDetial" th:disabled="${s.sys_role_id=='sr-000001'}" >
                 <!--<option value="">请选择</option>-->
-                <option  th:each="r:${sysRoles}" th:value="${r.id}" th:text="${r.name}" th:selected="${s.sys_role_id==r.id}" th:disabled="${r.id=='sr-000001'}" ></option>
+                <option  th:each="r:${sysRoles}" th:value="${r.id}" th:text="${r.name}" th:selected="${s.sys_role_id==r.id}" th:disabled="${r.id=='sr-000001'||r.available=='1'}" ></option>
             </select>
         </div>
     </div>

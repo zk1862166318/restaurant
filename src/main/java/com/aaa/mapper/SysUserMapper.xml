@@ -233,12 +233,10 @@
   </select>
   <!--用户查询-->
   <select id="sysUserList" resultMap="selSysUser" parameterType="SysUserExample">
-      SELECT u.id,u.usercode,u.username,u.password,u.salt,u.locked,r.name from (select id,usercode,username,password,salt,locked from sys_user
+      SELECT u.id,u.usercode,u.username,u.password,u.salt,u.locked,r.name from sys_user u left join sys_user_role ur on u.id=ur.sys_user_id LEFT JOIN sys_role r on ur.sys_role_id=r.id
     <if test="startRow != null and pageSize != null and pageSize != 0">
       limit #{startRow},#{pageSize}
     </if>
-      ) u left join sys_user_role ur on u.id=ur.sys_user_id LEFT JOIN sys_role r on ur.sys_role_id=r.id
-
   </select>
   <resultMap id="selSysUser" type="SysUser">
     <id property="id" column="id"/>
@@ -255,6 +253,9 @@
   </resultMap>
 
   <!--用户添加-->
+  <select id="checkSysUser" parameterType="java.lang.String" resultType="SysUser">
+    select * from sys_user where usercode=#{usercode}
+  </select>
     <insert id="addSysUserRole" parameterType="java.util.List"  >
     insert into sys_user_role(sys_user_id,sys_role_id)
     values

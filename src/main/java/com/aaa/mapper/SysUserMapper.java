@@ -34,6 +34,7 @@ public interface SysUserMapper {
     SysUser findUserByName(String username);
     List<SysUser> sysUserList(SysUserExample example);
     void addSysUserRole(List<SysUserRole> mlist);
+    public List<SysUser> checkSysUser(String usercode);
     public List<SysPermission> idByUserid(String userid);
     void addSysRolePermission(List<SysRolePermission> srpList);
     SysUserDB selSysUserOne(String id);

@@ -134,26 +134,32 @@ public class SysUserController {
     @RequestMapping(value = "user/add", method = RequestMethod.POST)
     @ResponseBody
     public PageUtil<SysUser> addOneSysUser(SysUser sysUser, String roleid) throws Exception {
-        sysUserService.addSysUser(sysUser);
-        SysUser sysUserAll = sysService.findSysUserByUsername(sysUser.getUsername());
-        List<SysUserRole> mlist = new ArrayList<SysUserRole>();
-        //以逗号形式分割字符串转化为数组
-        String[] split = roleid.split(",");
-        if (split.length > 0) {
-            for (String str : split) {
-                if (str != "" && str != null) {
-                    SysUserRole m = new SysUserRole();
-                    m.setSysUserId(sysUserAll.getId());
-                    m.setSysRoleId(str);
-                    mlist.add(m);
+        PageUtil result=new PageUtil();
+        List<SysUser> sysUsers = sysUserService.checkSysUser(sysUser.getUsercode());
+        if (sysUsers != null && sysUsers.size() > 0) {
+            result.setMsg("添加的账号已存在！");
+            result.setData(false);
+            return result;
+        }else {
+            sysUserService.addSysUser(sysUser);
+            SysUser sysUserAll = sysService.findSysUserByUsername(sysUser.getUsername());
+            List<SysUserRole> mlist = new ArrayList<SysUserRole>();
+            //以逗号形式分割字符串转化为数组
+            String[] split = roleid.split(",");
+            if (split.length > 0) {
+                for (String str : split) {
+                    if (str != "" && str != null) {
+                        SysUserRole m = new SysUserRole();
+                        m.setSysUserId(sysUserAll.getId());
+                        m.setSysRoleId(str);
+                        mlist.add(m);
+                    }
                 }
             }
+            sysUserService.addSysUserRole(mlist);
+            result.setMsg("添加成功！");
+            return result;
         }
-        sysUserService.addSysUserRole(mlist);
-        PageUtil result = new PageUtil();
-        result.setMsg("添加成功！");
-        return result;
-
     }
     //用户编辑
     @RequestMapping("user/editSysUser")

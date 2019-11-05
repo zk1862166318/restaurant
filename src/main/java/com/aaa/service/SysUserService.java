@@ -14,6 +14,7 @@ public interface SysUserService {
     public List<SysRole> findSysRoleList();
     public int addSysUser(SysUser sysUser);
     void addSysUserRole(List<SysUserRole> mlist);
+    public List<SysUser> checkSysUser(String usercode);
     //用户编辑
    SysUserDB selSysUser(String id);
     List<SysRole> selSysRole();

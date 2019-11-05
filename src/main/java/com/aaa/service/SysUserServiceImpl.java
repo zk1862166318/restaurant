@@ -72,6 +72,11 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    public List<SysUser> checkSysUser(String usercode) {
+        return sysUserMapper.checkSysUser(usercode);
+    }
+
+    @Override
     public SysUserDB selSysUser(String id) {
 
         return  sysUserMapper.selSysUserOne(id);
@@ -148,7 +153,7 @@ public class SysUserServiceImpl implements SysUserService {
         SysRole role=new SysRole();
         role.setId(sysRole.getId());
         role.setName(sysRole.getName());
-        role.setAvailable("1");
+        role.setAvailable("0");
         return  sysRoleMapper.updateByPrimaryKey(role);
     }
 
