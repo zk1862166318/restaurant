@@ -1,12 +1,36 @@
 package com.aaa.entity;
 
-public class Menus {
+public class MenusDB {
     private int m_id;
     private String m_name;
     private String m_img;
     private double m_price;
     private int m_state;
-    private int t_id;
+    private String t_name;
+
+    public MenusDB(int m_id, String m_name, String m_img, double m_price, int m_state, String t_name) {
+        this.m_id = m_id;
+        this.m_name = m_name;
+        this.m_img = m_img;
+        this.m_price = m_price;
+        this.m_state = m_state;
+        this.t_name = t_name;
+    }
+
+    @Override
+    public String toString() {
+        return "MenusDB{" +
+                "m_id=" + m_id +
+                ", m_name='" + m_name + '\'' +
+                ", m_img='" + m_img + '\'' +
+                ", m_price=" + m_price +
+                ", m_state=" + m_state +
+                ", t_name='" + t_name + '\'' +
+                '}';
+    }
+
+    public MenusDB() {
+    }
 
     public int getM_id() {
         return m_id;
@@ -48,35 +72,11 @@ public class Menus {
         this.m_state = m_state;
     }
 
-    public int getT_id() {
-        return t_id;
+    public String getT_name() {
+        return t_name;
     }
 
-    public void setT_id(int t_id) {
-        this.t_id = t_id;
-    }
-
-    public Menus(int m_id, String m_name, String m_img, double m_price, int m_state, int t_id) {
-        this.m_id = m_id;
-        this.m_name = m_name;
-        this.m_img = m_img;
-        this.m_price = m_price;
-        this.m_state = m_state;
-        this.t_id = t_id;
-    }
-
-    public Menus() {
-    }
-
-    @Override
-    public String toString() {
-        return "Menus{" +
-                "m_id=" + m_id +
-                ", m_name='" + m_name + '\'' +
-                ", m_img='" + m_img + '\'' +
-                ", m_price=" + m_price +
-                ", m_state=" + m_state +
-                ", t_id=" + t_id +
-                '}';
+    public void setT_name(String t_name) {
+        this.t_name = t_name;
     }
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.mapper.FoodMassageMapper">
+    <select id="selType" resultType="Type">
+        select * from types where t_state = 0
+    </select>
+    <insert id="foodAdd" parameterType="Menus">
+        insert into menus(m_name,m_img,m_price,m_state,t_id)
+        value (#{m_name},#{m_img},#{m_price},#{m_state},#{t_id})
+    </insert>
+    <select id="foodSel" parameterType="Map" resultType="MenusDB">
+        SELECT m.m_id,m.m_name,m.m_img,m.m_price,m.m_state,t.t_name from menus m
+        LEFT JOIN types t ON t.t_id = m.t_id where m.m_state=#{m_state} order by m.m_id asc limit #{start},#{limit}
+    </select>
+    <update id="foodUpd" parameterType="Map">
+        update menus set m_name=#{m_name},m_price=#{m_price},m_img=#{m_img},t_id=#{t_id} where m_id=#{m_id}
+    </update>
+    <update id="stateUpd" parameterType="Map">
+        update menus set m_state=#{m_state} where m_id=#{m_id}
+    </update>
+    <select id="countAll" parameterType="int" resultType="int">
+        select count(*) from menus where m_state=#{m_state}
+    </select>
+</mapper>
