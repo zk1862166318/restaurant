@@ -158,6 +158,7 @@ public class SysUserController {
             }
             sysUserService.addSysUserRole(mlist);
             result.setMsg("添加成功！");
+            result.setData(true);
             return result;
         }
     }

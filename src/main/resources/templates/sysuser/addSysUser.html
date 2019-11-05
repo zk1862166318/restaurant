@@ -40,7 +40,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">角色</label>
         <div class="layui-input-block" >
-            <select name="roleid" lay-filter="role"  xm-select="roleDetial">
+            <!--<select name="roleid" lay-filter="role"  xm-select="roleDetial">-->
+                <select name="roleid" lay-filter="role"  >
                 <!--<option value="">请选择</option>-->
                 <option  th:each="r:${sysRoleList}" th:value="${r.id}" th:text="${r.name}"></option>
             </select>
@@ -105,18 +106,18 @@
                 layedit.sync(editIndex);
             }
         });
-        layui.formSelects.render('roleDetial', {
+       // layui.formSelects.render('roleDetial', {
 
             //init: ["1", "请先选择机构"],              //默认值
-            skin: "normal", //多选皮肤normal|primary|default|danger|warm
-            height: "auto",                //是否固定高度, 38px | auto
-            radio: false,                  //是否设置为单选模式
-            direction: "down",        //显示方式向下显示
-            on: function(id, vals, val, isAdd, isDisabled){
-                var getName = layui.formSelects.value('roleDetial');//取值
+          //  skin: "normal", //多选皮肤normal|primary|default|danger|warm
+          //  height: "auto",                //是否固定高度, 38px | auto
+          //  radio: false,                  //是否设置为单选模式
+         //   direction: "down",        //显示方式向下显示
+          //  on: function(id, vals, val, isAdd, isDisabled){
+          //      var getName = layui.formSelects.value('roleDetial');//取值
                // layer.msg("你选择的值为：" + getName);
-            }           //同formSelects.on
-        });
+          //  }           //同formSelects.on
+      //  });
 
 
     })
