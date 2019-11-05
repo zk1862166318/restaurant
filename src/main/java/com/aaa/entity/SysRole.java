@@ -1,11 +1,22 @@
 package com.aaa.entity;
 
+import java.util.List;
+
 public class SysRole {
     private String id;
 
     private String name;
 
     private String available;
+    private List<SysUser> sysUsers;
+
+    public List<SysUser> getSysUsers() {
+        return sysUsers;
+    }
+
+    public void setSysUsers(List<SysUser> sysUsers) {
+        this.sysUsers = sysUsers;
+    }
 
     public String getId() {
         return id;

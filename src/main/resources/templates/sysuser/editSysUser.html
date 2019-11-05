@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员修改</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/jquery-3.1.1.js}"></script>
+    <style>
+        .layui-form-item .layui-input{
+            width:195px;
+        }
+    </style>
+</head>
+<body>
+<br>
+<br>
+<form class="layui-form" action="" lay-filter="example"  th:each="s:${sysUser}">
+    <input type="hidden" th:value="${s.id}" name="id">
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+            <input type="text" name="username" lay-verify="title" autocomplete="off" th:value="${s.username}" class="layui-input" readonly>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">账号</label>
+        <div class="layui-input-block">
+            <input type="text" name="usercode" lay-verify="title" autocomplete="off" th:value="${s.usercode}" class="layui-input" id="usercode" readonly>
+        </div>
+    </div>
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">密码</label>-->
+        <!--<div class="layui-input-block">-->
+            <!--<input type="password" name="password" lay-verify="title" autocomplete="off" th:value="${s.password}" class="layui-input" >-->
+        <!--</div>-->
+    <!--</div>-->
+    <input type="hidden" name="password" lay-verify="title" autocomplete="off" th:value="${s.password}" class="layui-input" >
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色</label>
+        <div class="layui-input-block" >
+            <select name="roleid" lay-filter="role"  xm-select="roleDetial" th:disabled="${s.sys_role_id=='sr-000001'}" >
+                <!--<option value="">请选择</option>-->
+                <option  th:each="r:${sysRoles}" th:value="${r.id}" th:text="${r.name}" th:selected="${s.sys_role_id==r.id}" th:disabled="${r.id=='sr-000001'||r.available=='1'}" ></option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">修改</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>
+<script>
+    layui.use('form', function() {
+        var form = layui.form;
+        form.on('submit(demo1)', function (data) {
+            // layer.alert(JSON.stringify(data.field), {
+            //     title: '最终的提交信息'
+            // })
+            $.post("updateSysUser",data.field,function (result) {
+                if(result.data==true){
+                    layer.msg(result.msg, {
+                        icon: 1,
+                        time: 1000
+                    }, function(){
+                        var index=parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                        parent.window.location.reload();
+                    });
+                }
+            });
+            return false;
+        });
+    })
+</script>

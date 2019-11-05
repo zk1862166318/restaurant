@@ -1,5 +1,6 @@
 body {
-    background-color: #e7e7e7;
+    /*background-color: #e7e7e7;*/
+    /*background-image:url("../images/bg.jpg");*/
 }
 
 input:-webkit-autofill {
@@ -24,7 +25,12 @@ input:-webkit-autofill {
 }
 
 .admin-logo {
-    width: 280px;
+    /*width: 280px;*/
+    width:100px;
+    height:100px;
+    border-radius: 50px;
+    margin-left:80px;
+
 }
 
 .admin-button {
@@ -45,9 +51,11 @@ input:-webkit-autofill {
 
 .admin-input-username {
     border-top-style: solid;
-    border-radius: 10px 10px 0 0;
+    border-radius: 10px 10px 10px 10px;
 }
-
+.admin-input-password{
+    border-radius: 10px 10px 10px 10px;
+}
 .admin-input-verify {
     border-radius: 0 0 10px 10px;
 }

@@ -1,8 +1,7 @@
 package com.aaa.mapper;
 
 
-import com.aaa.entity.SysUser;
-import com.aaa.entity.SysUserExample;
+import com.aaa.entity.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -33,4 +32,14 @@ public interface SysUserMapper {
     int updateByPrimaryKey(SysUser record);
 
     SysUser findUserByName(String username);
+    List<SysUser> sysUserList(SysUserExample example);
+    void addSysUserRole(List<SysUserRole> mlist);
+    public List<SysUser> checkSysUser(String usercode);
+    public List<SysPermission> idByUserid(String userid);
+    void addSysRolePermission(List<SysRolePermission> srpList);
+    SysUserDB selSysUserOne(String id);
+    int updateByID(SysUserRole sysUserRole);
+    int changeState(SysUser su);
+    int changeRoleState(SysRole sr);
+    List<SysRole> findRoleAll();
 }

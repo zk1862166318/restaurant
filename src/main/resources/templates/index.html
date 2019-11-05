@@ -48,10 +48,10 @@
                 <a href="javascript:" th:text="${activeUser.getUsercode()}">
                     <!--<img src="http://t.cn/RCzsdCq" class="layui-nav-img">-->
                 </a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">基本资料</a></dd>
-                    <dd><a href="">安全设置</a></dd>
-                </dl>
+                <!--<dl class="layui-nav-child">-->
+                    <!--<dd><a href="">基本资料</a></dd>-->
+                    <!--<dd><a href="">安全设置</a></dd>-->
+                <!--</dl>-->
             </li>
             <li class="layui-nav-item"><a href="logout">退了</a></li>
         </ul>
@@ -62,11 +62,11 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  th:each="m:${activeUser.menus}" lay-filter="menu">
-                <li class="layui-nav-item layui-nav-itemed">
+                <li class="layui-nav-item">
                     <a class="" href="javascript:void(0);" th:text="${m.name}"></a>
                     <dl class="layui-nav-child" th:each="p:${activeUser.permissions}" >
                         <dd >
-                            <a href="javascript:;"  th:data-url="${p.url}" th:text="${p.name}"  th:id="${p.id}"></a>
+                            <a href="javascript:;"  th:data-url="${p.url}" th:text="${p.name}"  th:id="${p.id}" th:if="${m.id==p.parentid}"></a>
                         </dd>
                     </dl>
                 </li>
@@ -79,10 +79,12 @@
         <!--tab标签代码-->
         <div class="layui-tab" lay-allowClose="true" lay-filter="demo">
             <ul class="layui-tab-title">
-                <li class="layui-this" lay-id="11">主页</li>
+                <li class="layui-this" lay-id="11">首页</li>
             </ul>
             <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show">123</div>
+                <div class="layui-tab-item layui-show">
+                    <h1>欢迎登录</h1>
+                </div>
             </div>
         </div>
 

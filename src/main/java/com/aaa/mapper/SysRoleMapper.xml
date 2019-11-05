@@ -80,6 +80,9 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+    <if test="startRow != null and pageSize != null and pageSize != 0">
+      limit #{startRow},#{pageSize}
+    </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -178,4 +181,7 @@
       available = #{available,jdbcType=CHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="selSysRole" resultType="SysRole">
+    select * from sys_role
+  </select>
 </mapper>

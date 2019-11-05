@@ -83,6 +83,9 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+    <if test="startRow != null and pageSize != null and pageSize != 0">
+      limit #{startRow},#{pageSize}
+    </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -227,6 +230,72 @@
   </update>
   <select id="findUserByName" parameterType="String" resultType="SysUser">
     select * from sys_user where username = #{username}
-
   </select>
+  <!--用户查询-->
+  <select id="sysUserList" resultMap="selSysUser" parameterType="SysUserExample">
+      SELECT u.id,u.usercode,u.username,u.password,u.salt,u.locked,r.name from sys_user u left join sys_user_role ur on u.id=ur.sys_user_id LEFT JOIN sys_role r on ur.sys_role_id=r.id
+    <if test="startRow != null and pageSize != null and pageSize != 0">
+      limit #{startRow},#{pageSize}
+    </if>
+  </select>
+  <resultMap id="selSysUser" type="SysUser">
+    <id property="id" column="id"/>
+    <result property="usercode" column="usercode"/>
+    <result property="username" column="username"/>
+    <result property="password" column="password"/>
+    <result property="salt" column="salt"/>
+    <result property="locked" column="locked"/>
+    <collection property="sysRoles"  ofType="SysRole">
+      <id property="id" column="id"/>
+      <result property="name" column="name"/>
+      <result property="available" column="available"/>
+    </collection>
+  </resultMap>
+
+  <!--用户添加-->
+  <select id="checkSysUser" parameterType="java.lang.String" resultType="SysUser">
+    select * from sys_user where usercode=#{usercode}
+  </select>
+    <insert id="addSysUserRole" parameterType="java.util.List"  >
+    insert into sys_user_role(sys_user_id,sys_role_id)
+    values
+     <foreach collection="list" item="m" separator=",">
+    (#{m.sysUserId},#{m.sysRoleId})
+     </foreach>
+    </insert>
+  <select id="selSysUserOne" parameterType="java.lang.String" resultType="SysUserDB">
+    SELECT su.*,sur.* from sys_user su LEFT JOIN sys_user_role sur on su.id=sur.sys_user_id where su.id=#{id}
+  </select>
+  <!---->
+  <select id="idByUserid" parameterType="java.lang.String" resultType="SysPermission">
+SELECT*from sys_permission WHERE id in(
+SELECT sys_permission_id from sys_role_permission WHERE sys_role_id in(
+select sys_role_id from sys_user_role WHERE sys_role_id=#{sys_role_id}
+)
+)
+  </select>
+  <!--管理员修改角色-->
+  <update id="updateByID" parameterType="SysUserRole">
+    update sys_user_role set sys_role_id=#{sysRoleId} where sys_user_id=#{sysUserId}
+  </update>
+  <update id="changeState" parameterType="SysUser">
+    update sys_user set locked=#{locked} where id=#{id}
+  </update>
+  <!--角色状态修改-->
+  <update id="changeRoleState" parameterType="SysRole">
+    update sys_role set available=#{available} where id=#{id}
+  </update>
+  <!--权限修改-->
+  <insert id="addSysRolePermission" parameterType="java.util.List">
+      INSERT INTO sys_role_permission(sys_role_id,sys_permission_id)
+      VALUES
+      <foreach collection="list" item="srp" separator=",">
+        (#{srp.sysRoleId},#{srp.sysPermissionId})
+      </foreach>
+  </insert>
+<!---->
+  <select id="findRoleAll" resultType="SysRole">
+    select * from sys_role where available=0
+  </select>
+
 </mapper>
