@@ -35,7 +35,7 @@
                 ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
                 ,cols: [[//templet:'#zizeng'
                     {field:'numbers',  title: 'ID',type:'numbers'} //, sort: true 可以改变排序
-                    ,{field:'m_img', title: '图片',templet:'<div><img src="{{ d.m_img }}" class="img"></div>'}
+                    ,{field:'m_img', title: '图片',templet:'<div><img src="upload/{{ d.m_img }}" class="img"></div>'}
                     ,{field:'m_name',  title: '菜名'}
                     ,{field:'o_time',  title: '时间',templet:'<div>{{ layui.util.toDateString(d.o_time, "HH:mm:ss") }}</div>'}
                     ,{field:'l_count', title: '数量', width: '30%', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
