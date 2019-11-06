@@ -184,4 +184,8 @@
   <select id="selSysRole" resultType="SysRole">
     select * from sys_role
   </select>
+  <!--导出数据-->
+  <!--<select id="findSysRoleAllExcel" resultType="SysRole">-->
+    <!--select * from sys_role-->
+  <!--</select>-->
 </mapper>
