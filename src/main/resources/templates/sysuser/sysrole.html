@@ -11,9 +11,14 @@
     <!--<script th:src="@{/layui_ext/dist/dtree.js}"></script>-->
 </head>
 <body>
+<!--<script type="text/html" id="toolbarDemo">-->
 <div class="layui-btn-group">
     <button type="button" class="layui-btn" id="addSysRole">设置角色</button>
+    <!--<button class="layui-btn" id="export">-->
+        <!--<i class="iconfont icon-export"></i> 导出-->
+    <!--</button>-->
 </div>
+ <!--</script>-->
 <div>
     <table class="layui-hide" id="roleAll" lay-filter="demo"></table>
 </div>
@@ -28,9 +33,12 @@
         var layer = layui.layer;
         var dtree = layui.dtree;
         var form=layui.form;
-        table.render({
+        //var exportData = " ";			//定义全局变量
+        var roleAllList=table.render({
             elem: '#roleAll'
             , url: 'queryRoleData'
+            ,toolbar: '#toolbarDemo' //开启头部工具栏
+            ,defaultToolbar: []
             , cellMinWidth: 80
             , cols: [[
                 {field: 'id', title: 'ID',hide:true}
@@ -48,20 +56,43 @@
                         }
                         return state;
                     }
-                    // templet: function (data) {
-                    //     if (data.available == 1) {
-                    //         return "启用"
-                    //     } else if (data.available == 0) {
-                    //         return "禁用"
-                    //     }
-                    // }
+
                 },
                 {field:'action',width:'30%',title:'操作',toolbar: '#barDemo'}
             ]]
             , page: true
             , limit: 1
             , limits: [1, 2, 4]
+          //  ,done: function (res, curr, count) {
+            //    $.ajax({
+              //      type: "post",
+              //      url: "AllRole",
+               //     async: false,
+               //     dataType: "json",
+                //    success: function(data){
+                        // 放到数组
+                        // var htmlArray = [],
+                        //     members = data.data;
+
+                        // for (var i = 0; i < members.length; i++){
+                        //     if (members[i].available == 0) {
+                        //         htmlArray.push('<span>启用</span>');
+                        //     }
+                        //     else {
+                        //         htmlArray.push('<span>禁用</span>');
+                        //     }
+                        // }
+
+
+                   //  exportData=data.data;
+                  //  }
+             //   })
+          //  }
         })
+        // $("#export").click(function(){
+        //
+        //     table.exportFile(roleAllList.config.id,exportData, 'xls');
+        // })
         $('#addSysRole').on('click',function () {
             layer.open({
                 title: '角色添加',

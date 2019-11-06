@@ -122,6 +122,11 @@ public class SysUserServiceImpl implements SysUserService {
         return i;
     }
 
+//    @Override
+//    public List<SysRole> findSysRoleAll() {
+//        return sysRoleMapper.findSysRoleAllExcel();
+//    }
+
     @Override
     public List<SysRole> checkRole(String name) {
         SysRoleExample example=new SysRoleExample();

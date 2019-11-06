@@ -24,6 +24,8 @@ public interface SysUserService {
     //角色查询
     public List<SysRole> findSysRoleList(int limit,int page);
     public int countSysRole();
+    //导出所有数据
+//    List<SysRole> findSysRoleAll();
     //验证添加角色
     public List<SysRole> checkRole(String name);
     public int addSysRole(SysRole sysRole);

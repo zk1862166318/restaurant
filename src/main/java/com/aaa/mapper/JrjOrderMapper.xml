@@ -4,7 +4,7 @@
 <mapper namespace="com.aaa.mapper.JrjOrderMapper">
 
     <select id="findOrderList" resultMap="selOrder" parameterType="Orders">
-        SELECT o.o_id,o.o_totalprice,o.o_time,o_deskNum,u.u_name,u.u_tel from orders o LEFT JOIN users u on o.u_id=u.u_id
+        SELECT o.o_id,o.o_totalprice,o.o_time,o_deskNum,u.u_name from orders o LEFT JOIN users u on o.u_id=u.u_id
         <if test="startRow != null and pageSize != null and pageSize != 0">
             limit #{startRow},#{pageSize}
         </if>
@@ -17,10 +17,9 @@
         <result property="u_id" column="u_id"></result>
         <association property="users" javaType="Users">
             <id property="u_id" column="u_id"></id>
+            <result property="u_openid" column="u_openid"></result>
+            <result property="u_img" column="u_img"></result>
             <result property="u_name" column="u_name"></result>
-            <result property="u_pwd" column="u_pwd"></result>
-            <result property="u_tel" column="u_tel"></result>
-            <result property="u_state" column="u_state"></result>
         </association>
     </resultMap>
     <select id="countOrder" resultType="Integer">

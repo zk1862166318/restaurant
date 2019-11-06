@@ -261,7 +261,16 @@ public class SysUserController {
         result.setData(true);
         return result;
     }
-
+//@RequestMapping("role/AllRole")
+//@ResponseBody
+//public PageUtil<List> AllRole(){
+//    List<SysRole> roleAll = sysUserService.findSysRoleAll();
+//    PageUtil<List> list = new PageUtil<>("", roleAll, 0, 0);
+//    if (roleAll != null) {
+//        return list;
+//    }
+//    return null;
+//}
     //角色权限
     @RequestMapping("role/rolePermission")
     public String rolePermission(String id, Model model){
