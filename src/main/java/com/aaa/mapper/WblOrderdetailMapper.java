@@ -14,4 +14,5 @@ public interface WblOrderdetailMapper {
     List<Map> selectAll(Map<String,Object> map);
     int selectCount(Orderdetail orderdetail);
     List<Map> selectMessage(Map<String,Object> map);
+    public List<Map> alldata();
 }

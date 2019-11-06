@@ -45,6 +45,11 @@ public class WblOrderdetailServiceImpl implements WblOrderdetailService{
         return wblOrderdetailMapper.selectMessage(map);
     }
 
+    @Override
+    public List<Map> alldata() {
+        return wblOrderdetailMapper.alldata();
+    }
+
     //实现分页与模糊查询
 
 }

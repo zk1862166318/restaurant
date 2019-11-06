@@ -51,8 +51,14 @@ public class WblOrderdetailController {
             result.setCount(count);
             return result;
         }
-
-
-
+    }
+    @RequestMapping("AllData")
+    @ResponseBody
+    public tableResult<Map> alldata(){
+        tableResult<Map> result=new tableResult<>();
+        List<Map> list = wblOrderdetailService.alldata();
+        result.setData(list);
+        result.setCount(0);
+        return result;
     }
 }

@@ -16,4 +16,7 @@
             </if>
         </where>
     </select>
+    <select id="alldata" resultType="com.aaa.entity.Orderdetail">
+        SELECT  o.*,m.m_img,m.m_name,ord.o_time FROM orderdetail o ,orders ord , menus m  WHERE o.o_id=ord.o_id AND o.m_id=m.m_id
+    </select>
 </mapper>

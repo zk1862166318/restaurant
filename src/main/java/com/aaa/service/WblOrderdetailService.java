@@ -10,4 +10,5 @@ public interface WblOrderdetailService {
     List<Map> selectAll(pageCount pageCount);
     int selectCount(Orderdetail orderdetail);
     public List<Map> selectMessage(pageCount pageCount,Orderdetail orderdetail);
+    public List<Map> alldata();
 }
