@@ -21,4 +21,7 @@
     <select id="countAll" parameterType="int" resultType="int">
         select count(*) from menus where m_state=#{m_state}
     </select>
+    <select id="selName" parameterType="String" resultType="int">
+        select count(m_id) from menus where m_name=#{m_name}
+    </select>
 </mapper>

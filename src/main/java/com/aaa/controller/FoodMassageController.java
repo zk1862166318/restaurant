@@ -5,6 +5,7 @@ import com.aaa.entity.MenusVO;
 import com.aaa.entity.Menus;
 import com.aaa.entity.Type;
 import com.aaa.service.FoodMassageService;
+import com.alibaba.druid.sql.PagerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -73,6 +74,18 @@ public class FoodMassageController {
         return map;
     }
 
+    @RequestMapping("/selName")
+    @ResponseBody
+    public String selName(String m_name){
+        int i = foodMassageService.selName(m_name);
+        if (i!=0){
+            return "1";
+        }else{
+            return "0";
+        }
+
+    }
+
     @RequestMapping("/foodAdd")
     @ResponseBody
     public String foodAdd(String m_name,int m_price,String m_img,int m_state,int t_id) {
@@ -80,8 +93,8 @@ public class FoodMassageController {
         System.out.println(m_img);
         String filename = "img/"+m_img;
         Menus.setM_img(filename);
-        Menus.setM_name(m_name);
         Menus.setM_price(m_price);
+        Menus.setM_name(m_name);
         Menus.setM_state(m_state);
         Menus.setT_id(t_id);
         int foodAdd = foodMassageService.foodAdd(Menus);

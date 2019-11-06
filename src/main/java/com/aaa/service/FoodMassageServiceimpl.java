@@ -45,4 +45,9 @@ public class FoodMassageServiceimpl implements FoodMassageService {
     public int countAll(Integer m_state) {
         return foodMassageMapper.countAll(m_state);
     }
+
+    @Override
+    public int selName(String m_name) {
+        return foodMassageMapper.selName(m_name);
+    }
 }

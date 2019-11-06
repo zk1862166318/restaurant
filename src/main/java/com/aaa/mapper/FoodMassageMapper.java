@@ -4,6 +4,7 @@ import com.aaa.entity.MenusDB;
 import com.aaa.entity.Menus;
 import com.aaa.entity.Type;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -18,4 +19,5 @@ public interface FoodMassageMapper {
     public int foodUpd(Map map);
     public int stateUpd(Map map);
     public int countAll(Integer m_state);
+    public int selName(String m_name);
 }

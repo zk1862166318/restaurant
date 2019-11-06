@@ -15,4 +15,5 @@ public interface FoodMassageService {
     public int foodUpd(Map map);
     public int stateUpd(Map map);
     public int countAll(Integer m_state);
+    public int selName(String m_name);
 }

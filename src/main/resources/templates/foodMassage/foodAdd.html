@@ -16,8 +16,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">菜品名称</label>
             <div class="layui-input-block">
-                <input type="text" name="foodTitle" required  lay-verify="required" placeholder="菜品名称" autocomplete="off" class="layui-input foodTitle">
-
+                <input type="text" id="foodTitle" name="foodTitle" required  lay-verify="title" placeholder="菜品名称" autocomplete="off" class="layui-input foodTitle">
             </div>
         </div>
 
@@ -76,27 +75,39 @@
         form.on('submit(formDemo)', function(data){
             var obj = data.field;
             $.ajax({
-                url:"foodAdd",
+                url:"selName",
                 type:"post",
                 data:{
                     m_name:obj.foodTitle,
-                    m_price:obj.foodPrice,
-                    t_id:obj.type,
-                    m_img:img,
-                    m_state:obj.state
-
                 },
-                dataType:"json",
-                success:function (obj) {
-                    if(obj==1){
-                        layer.alert("添加成功!");
-                        window.location.href='foodSel.html';
-                    }else if (obj==0){
-                        layer.alert("添加失败!")
+                success:function (data) {
+                    if (data=="1"){
+                        alert("此名称已存在!");
+                    }else{
+                        $.ajax({
+                            url:"foodAdd",
+                            type:"post",
+                            data:{
+                                m_name:obj.foodTitle,
+                                m_price:obj.foodPrice,
+                                t_id:obj.type,
+                                m_img:img,
+                                m_state:obj.state
+                            },
+                            dataType:"json",
+                            success:function (i) {
+                                if(i==1){
+                                    layer.alert("添加成功!");
+                                    window.location.href='foodSel.html';
+                                }else if (i==0){
+                                    layer.alert("添加失败!");
+                                }
+                            }
+                        });
                     }
-                    
                 }
-            })
+            });
+
             console.log(obj);
             return false;
         });
