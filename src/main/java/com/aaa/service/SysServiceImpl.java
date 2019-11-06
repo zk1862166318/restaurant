@@ -7,10 +7,10 @@ import com.aaa.entity.SysUserExample;
 import com.aaa.exception.CustomException;
 import com.aaa.mapper.SysPermissionMapperCustom;
 import com.aaa.mapper.SysUserMapper;
-import com.aaa.util.MD5;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.aaa.util.*;
 import javax.annotation.Resource;
 import java.util.List;
 

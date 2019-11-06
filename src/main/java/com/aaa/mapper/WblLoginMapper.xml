@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.aaa.mapper.WblLoginMapper">
+    <select id="findUserByNameAndPwd" resultType="com.aaa.entity.Users" parameterType="map">
+        select * from users t where u_name=#{name} and u_pwd=#{password}
+    </select>
+    
+    <insert id="addUser" parameterType="com.aaa.entity.Users">
+        insert into users (u_name,u_pwd,u_tel,u_state) values (#{u_name},#{u_pwd},#{u_tel},0)
+    </insert>
+</mapper>
