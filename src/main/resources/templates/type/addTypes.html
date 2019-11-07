@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/jquery-3.1.1.js}"></script>
+</head>
+<body>
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">类型名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="t_name" lay-verify="title" autocomplete="off" placeholder="请输入类型" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+<script>
+    layui.use('form', function() {
+        var form = layui.form;
+        // var code=(Math.floor(Math.random()*1000000));
+        // $("#verCode").val(code);
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })
+            $.post("add",data.field,function (result) {
+                if(result.data==true){
+                    layer.msg(result.msg, {
+                        icon: 1,
+                        time: 1000
+                    }, function(){
+                        var index=parent.layer.getFrameIndex(window.name); //获取当前窗口的name
+                        parent.layer.close(index);		//关闭窗口
+                        parent.window.location.reload();
+                    });
+
+                }else {
+                    layer.msg(result.msg, {
+                        icon: 7,
+                        time: 3000
+                    })
+
+
+                }
+
+
+            });
+            return false;
+        });
+        //自定义验证规则
+        form.verify({
+            title: function(value){
+                if(value.length < 2){
+                    return '标题至少得2个字符啊';
+                }
+            }
+            ,content: function(value){
+                layedit.sync(editIndex);
+            }
+        });
+
+    })
+</script>
+</html>
