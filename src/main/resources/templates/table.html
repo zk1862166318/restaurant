@@ -105,14 +105,14 @@
                 [ //表头
                 // {type: 'checkbox', fixed: 'left'}
                 {field: 'l_id', title: 'ID', width:'10%', sort: true}
-                ,{field:'m_img', title:'图片',width:'20%',templet:"<div><img src='image\\{{d.m_img}}'/></div>"}
+                ,{field:'m_img', title:'图片',width:'20%',templet:"<div><img src='\\restaurant\\image\\{{d.m_img}}'/></div>"}
                 ,{field:'o_time',title:'时间',width:'20%',templet:"<div>{{layui.util.toDateString(d.o_time, 'yyyy年MM月dd日')}}</div>"}
                 ,{field:'m_name', title:'菜名',width:'20%'}
                 ,{field: 'l_count', title: '数量', width:'15%',sort: true}
                 ,{field: 'l_sum', title: '总额', width: '15%', sort: true}
             ]
             ]
-           // , id: 'listData'
+            , id: 'listData'
             ,done:function (res,curr,count) {
                 $.ajax({
                     type:"post",
