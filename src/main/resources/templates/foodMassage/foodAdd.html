@@ -10,16 +10,13 @@
 </head>
 <body>
 <div ID="all">
-
     <form class="layui-form" action="/foodMassage/foodAdd" enctype="multipart/form-data">
-
         <div class="layui-form-item">
             <label class="layui-form-label">菜品名称</label>
             <div class="layui-input-block">
                 <input type="text" id="foodTitle" name="foodTitle" required  lay-verify="title" placeholder="菜品名称" autocomplete="off" class="layui-input foodTitle">
             </div>
         </div>
-
         <div class="layui-form-item">
             <label class="layui-form-label">价格</label>
             <div class="layui-input-inline">
@@ -27,7 +24,6 @@
             </div>
             <div class="layui-form-mid layui-word-aux">元</div>
         </div>
-
         <div class="layui-form-item">
             <label class="layui-form-label">类型</label>
             <div class="layui-input-block">
@@ -36,7 +32,6 @@
                 </select>
         </div>
         </div>
-
         <div>
             <label class="layui-form-label">菜品图片</label>
             <div class="layui-upload">
@@ -47,7 +42,6 @@
                 </div>
             </div>
         </div>
-
         <div class="layui-form-item">
             <label class="layui-form-label">上下架状态</label>
             <div class="layui-input-block">
@@ -64,7 +58,6 @@
 </div>
 </body>
 <script>
-
     // 表单提交
     layui.use(['form','upload'], function(){
         var form = layui.form,
@@ -107,8 +100,6 @@
                     }
                 }
             });
-
-            console.log(obj);
             return false;
         });
         // 文件上传
@@ -149,8 +140,6 @@
             console.log(data);
         });
     });
-
-
 </script>
 <style>
     #all{
