@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>订单查询</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/jquery-3.1.1.js}"></script>
+</head>
+<body>
+<div class="layui-btn-group">
+    <button type="button" class="layui-btn" id="addTypes">添加</button>
+</div>
+<div>
+    <table class="layui-hide" id="types" lay-filter="demo"></table>
+</div>
+<script type="textml" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail" >查看详情 </a>
+</script>
+<script th:inline="none">
+    layui.use(['table','layer',"form"], function() {
+        var table = layui.table,form=layui.form,$=layui.$;
+        var layer = layui.layer;
+        table.render({
+            elem: '#types'
+            , url: 'selTypes'
+            , cellMinWidth: 80
+            , cols: [[
+                {field: 't_id', width: '10%', title: 'ID'}
+                , {field: 't_name', width: '30%', title: '用户名'}
+                , {field: 't_state', width: '30%', title: '状态',
+                    templet:function(data){
+                        var t_state = "";
+                        if(data.t_state=="0"){
+                            t_state = "<input type='checkbox' value='" + data.t_id + "'  lay-filter='stat' checked='checked'   lay-skin='switch' lay-text='启用|禁用' >";
+                        }else if(data.t_state=="1"){
+                            t_state = "<input type='checkbox' value='" + data.t_id + "'  lay-filter='stat'   lay-skin='switch' lay-text='启用|禁用' >";
+                        }
+                        return t_state;
+                    }}
+            ]]
+            , page: true
+            , limit: 5
+            , limits: [5, 10]
+        });
+        $("#addTypes").on('click', function () {
+            layer.open({
+                title: '添加',
+                type: 2,
+                content:'addTypes',    // 设置跳转的url，跳转到对应的页面
+                area: ['1000px', '400px'],
+            })
+        });
+        //监听开关事件
+        // form.on('switch(stat)', function (data) {
+        //     var contexts;
+        //     var sta;
+        //     var t_id= data.elem.value;
+        //     if ( data.elem.checked== true) {
+        //         contexts = "启用";
+        //         sta = 0;
+        //         $.ajax({
+        //             type: "post",
+        //             async: false,
+        //             data: "t_id=" + t_id + "&t_state="+ 0,
+        //             url: "updateTypes",
+        //             success: function(data) {
+        //                 flag = data
+        //             },
+        //         });
+        //     } else if(data.elem.value!='sr-000001'){
+        //         contexts = "禁用";
+        //         sta = 1;
+        //         $.ajax({
+        //             type: "post",
+        //             async: false,
+        //             data: "t_id=" + t_id + "&t_state=" + 1,
+        //             url: "updateTypes",
+        //             success: function(data) {
+        //                 flag = data
+        //             }
+        //         });
+        //     }else if(data.elem.value=='sr-000001'){
+        //         table.reload('roleAll');
+        //     }
+        // })
+        form.on('switch(stat)', function(data){
+            var t_state = 0;
+            console.log("1"+data.elem); //得到checkbox原始DOM对象
+            console.log("2"+data.elem.checked); //开关是否开启，true或者false
+            console.log("3"+data.value); //开关value值，也可以通过data.elem.value得到
+            console.log("4"+data.othis); //得到美化后的DOM对象
+            if (data.elem.checked==true){
+                $.ajax({
+                    url:"updateTypes",
+                    type:"post",
+                    data:{
+                        t_id:data.value,
+                        t_state:0,
+                        elems:0
+                    },
+                    success:function (obj) {
+                        if (obj==1){
+                            alert("启用成功！");
+                            $(data.elem).prop("checked",true);
+                        }else{
+                            alert("启用失败");
+                            $(data.elem).prop("checked",false);
+                        }
+                        form.render();
+                    }
+                });
+            }else{
+                $.ajax({
+                    url:"updateTypes",
+                    type:"post",
+                    data:{
+                        t_id:data.value,
+                        t_state:1,
+                        elems:1
+                    },
+                    success:function (obj) {
+                        if (obj==1){
+                            alert("禁用成功！");
+                            $(data.elem).prop("checked",false);
+                        }else{
+                            alert("禁用失败");
+                            $(data.elem).prop("checked",true);
+                        }
+                        form.render();
+                    }
+                });
+            }
+        });
+    })
+</script>
+</body>
+<html>
