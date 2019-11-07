@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>表格</title>
-    <!--<link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css">-->
-    <!--<script src="https://www.layuicdn.com/layui/layui.js"></script>-->
-    <!--<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
+    <link rel="stylesheet" href="https://www.layuicdn.com/layui/css/layui.css">
+    <script src="https://www.layuicdn.com/layui/layui.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
@@ -43,19 +43,6 @@
     </div>
     <button class="layui-btn" data-type="reload" id="searchBtn">搜索</button>
 </div>
-
-<!--<div class="layui-inline">-->
-    <!--<label class="layui-form-label">开始日期</label>-->
-    <!--<div class="layui-input-inline">-->
-        <!--<input class="layui-input" id="test11" type="text" placeholder="yyyy年MM月dd日">-->
-    <!--</div>-->
-<!--</div>-->
-<!--<div class="layui-inline">-->
-    <!--<label class="layui-form-label">结束日期</label>-->
-    <!--<div class="layui-input-inline">-->
-        <!--<input class="layui-input" id="test11One" type="text" placeholder="yyyy年MM月dd日">-->
-    <!--</div>-->
-<!--</div>-->
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-group">
     <button type="button" class="layui-btn" id="export">
@@ -77,18 +64,6 @@
             elem: '#test6'
             ,range:'~'
         });
-
-        // laydate.render({
-        //     elem: '#test11'
-        //     ,format: 'yyyy年MM月dd日'
-        // });
-        // laydate.render({
-        //     elem: '#test11One'
-        //     ,format: 'yyyy年MM月dd日'
-        // });
-
-        //执行一个 table 实例
-
         var listData=table.render({
             elem: '#demo'
             ,height: 550
@@ -106,7 +81,7 @@
                 [ //表头
                 // {type: 'checkbox', fixed: 'left'}
                 {field: 'l_id', title: 'ID', width:'10%', sort: true}
-                ,{field:'m_img', title:'图片',width:'20%',templet:"<div><img src='\\restaurant\\image\\{{d.m_img}}'/></div>"}
+                ,{field:'m_img', title:'图片',width:'20%',templet:"<div><img src='../upload/{{d.m_img}}'/></div>"}
                 ,{field:'o_time',title:'时间',width:'20%',templet:"<div>{{layui.util.toDateString(d.o_time, 'yyyy年MM月dd日')}}</div>"}
                 ,{field:'m_name', title:'菜名',width:'20%'}
                 ,{field: 'l_count', title: '数量', width:'15%',sort: true}

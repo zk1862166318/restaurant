@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,8 @@ import java.util.Map;
 public class WblOrderdetailController {
     @Autowired
     private WblOrderdetailService wblOrderdetailService;
-    @RequestMapping("/table")
+
+    @RequestMapping("/tables")
     public String meter(){
         return "table";
     }
