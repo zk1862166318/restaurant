@@ -38,6 +38,7 @@ public class ShiroConfig {
         filemap.put("/layui_ext/**","anon");
         filemap.put("/upload/**","anon");
         filemap.put("/login","anon");
+        filemap.put("/**","anon");
         //授权
         filemap.put("/user/query","perms[user:query]");
         filemap.put("/user/create","perms[user:create]");//为添加用户授予权限
@@ -46,7 +47,7 @@ public class ShiroConfig {
         filemap.put("/jrj/selOrder","perms[jrj:selOrder]");
         filemap.put("/logout", "logout");
         //设置拦截所有
-        filemap.put("/**","authc");
+        //filemap.put("/**","authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filemap);
         //设置拦截后的跳转页面
         shiroFilterFactoryBean.setLoginUrl("/toLogin");
