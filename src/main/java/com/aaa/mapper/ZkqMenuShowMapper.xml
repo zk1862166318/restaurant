@@ -3,7 +3,7 @@
 <mapper namespace="com.aaa.mapper.ZkqMenuShowMapper">
     <!--查询类型-->
     <select id="getTypes"  resultType="Types">
-        SELECT * from types
+        SELECT * from types WHERE t_state = 0
     </select>
     <!--查询菜品-->
     <select id="getMenus" parameterType="java.lang.Integer" resultType="Menus">
