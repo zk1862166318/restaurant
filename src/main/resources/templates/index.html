@@ -65,7 +65,7 @@
                 <li class="layui-nav-item">
                     <a class="" href="javascript:void(0);" th:text="${m.name}"></a>
                     <dl class="layui-nav-child" th:each="p:${activeUser.permissions}" >
-                        <dd >
+                        <dd th:if="${p.id==72}">
                             <a href="javascript:;"  th:data-url="${p.url}" th:text="${p.name}"  th:id="${p.id}" th:if="${m.id==p.parentid}"></a>
                         </dd>
                     </dl>
