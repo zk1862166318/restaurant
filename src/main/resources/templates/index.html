@@ -64,9 +64,12 @@
             <ul class="layui-nav layui-nav-tree"  th:each="m:${activeUser.menus}" lay-filter="menu">
                 <li class="layui-nav-item">
                     <a class="" href="javascript:void(0);" th:text="${m.name}"></a>
-                    <dl class="layui-nav-child" th:each="p:${activeUser.permissions}" >
-                        <dd >
+                    <dl class="layui-nav-child" th:each="p:${activeUser.permissions}">
+                        <dd th:if="${p.id!=72}">
                             <a href="javascript:;"  th:data-url="${p.url}" th:text="${p.name}"  th:id="${p.id}" th:if="${m.id==p.parentid }"></a>
+                        </dd>
+                        <dd th:if="${p.id==72}">
+                            <a href="http://www.baidu.com" th:text="${p.name}" th:if="${m.id==p.parentid}"></a>
                         </dd>
                     </dl>
                 </li>
