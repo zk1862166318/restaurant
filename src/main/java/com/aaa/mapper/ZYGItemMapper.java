@@ -6,6 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface ItemMapper {
+public interface ZYGItemMapper {
     public List<Map> itemList(Integer uid);
 }

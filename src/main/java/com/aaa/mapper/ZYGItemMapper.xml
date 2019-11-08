@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.aaa.mapper.ItemMapper">
+<mapper namespace="com.aaa.mapper.ZYGItemMapper">
 <select id="itemList" parameterType="Integer" resultType="Map">
  SELECT o.o_id,o.o_totalprice,o.o_time,o.o_deskNum,o.u_id,(SELECT m.m_name from menus m where m.m_id=
 (SELECT od.m_id from orderdetail od where od.o_id=o.o_id order by od.m_id asc LIMIT 1)) as mname,(SELECT m.m_img from menus m where m.m_id=

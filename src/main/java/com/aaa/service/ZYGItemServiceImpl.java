@@ -1,6 +1,6 @@
 package com.aaa.service;
 
-import com.aaa.mapper.ItemMapper;
+import com.aaa.mapper.ZYGItemMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,11 +10,11 @@ import java.util.Map;
 
 @Service
 @Transactional
-public class ItemServiceImpl implements ItemService {
+public class ZYGItemServiceImpl implements ZYGItemService {
     @Resource
-    private ItemMapper itemMapper;
+    private ZYGItemMapper ZYGItemMapper;
     @Override
     public List<Map> itemList(Integer uid) {
-        return itemMapper.itemList(uid);
+        return ZYGItemMapper.itemList(uid);
     }
 }

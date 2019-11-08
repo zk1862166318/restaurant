@@ -47,7 +47,7 @@
                icon: '5',
                // firstIconArraylayui: "0",
                checkbar: true,
-               checkbarType: "no-all",//显示半选中状态
+               checkbarType: "all",//显示半选中状态
 
                url: "editRolePermission" // 使用url加载（可与data加载同时存在）
 
@@ -70,6 +70,7 @@
                    ids.push(param.nodeId);
                    roleid.push(param.mid);
                }
+               alert(ids);
                $.ajax({
                    type: "POST",
                    url: "updatePermission",
