@@ -370,7 +370,7 @@ public class SysUserController {
     public PageUtil<SysRolePermission> updatePermission(String[] params,String[] roleid){
         sysUserService.deletePer(roleid[0]);
         List<SysRolePermission> srplist = new ArrayList<SysRolePermission>();
-        for(String s:params ){
+         for(String s:params ){
             if (s!= "" && s != null) {
                  SysRolePermission srp=new SysRolePermission();
                  srp.setSysRoleId(roleid[0]);
