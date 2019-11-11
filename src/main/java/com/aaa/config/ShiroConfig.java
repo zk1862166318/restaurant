@@ -34,6 +34,7 @@ public class ShiroConfig {
         //设置不拦截静态资源
         filemap.put("/css/**","anon");
         filemap.put("/js/**","anon");
+        filemap.put("/images/**","anon");
         filemap.put("/layui/**","anon");
         filemap.put("/layui_ext/**","anon");
         filemap.put("/upload/**","anon");

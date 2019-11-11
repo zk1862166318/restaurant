@@ -1,6 +1,7 @@
 body {
     /*background-color: #e7e7e7;*/
-    /*background-image:url("../images/bg.jpg");*/
+    /*background-size:cover;*/
+    background:url("../images/bg.jpg") no-repeat;
 }
 
 input:-webkit-autofill {
@@ -10,15 +11,21 @@ input:-webkit-autofill {
 }
 
 .admin-login-background {
-    width: 300px;
+    width: 400px;
     height: 300px;
     position: absolute;
     left: 50%;
     top: 50%;
-    margin-left: -150px;
+    margin-left: -220px;
     margin-top: -100px;
+    background: rgba(0,0,0,0.2) ;
+    border-radius: 5%;
 }
-
+#formLogin{
+    width:300px;
+    height: 250px;
+    margin:25px 40px;
+}
 .admin-header {
     margin-top: -100px;
     margin-bottom: 20px;
