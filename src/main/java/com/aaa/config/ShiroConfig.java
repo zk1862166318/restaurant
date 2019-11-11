@@ -38,16 +38,23 @@ public class ShiroConfig {
         filemap.put("/layui_ext/**","anon");
         filemap.put("/upload/**","anon");
         filemap.put("/login","anon");
-        filemap.put("/**","anon");
+
         //授权
         filemap.put("/user/query","perms[user:query]");
         filemap.put("/user/create","perms[user:create]");//为添加用户授予权限
         filemap.put("/role/query","perms[role:query]");
         filemap.put("/item/queryItem","perms[item:query]");
         filemap.put("/jrj/selOrder","perms[jrj:selOrder]");
+        filemap.put("/foodMassage/selType","perms[foodMassage:selType]");
+        filemap.put("/foodMassage/foodSelUp.html","perms[foodMassage:foodSelUp.html]");
+        filemap.put("/foodMassage/foodSel.html","perms[foodMassage:foodSel.html]");
+        filemap.put("/type/aaa","perms[type:aaa]");
+        filemap.put("/wbl/caiwu","perms[wbl:caiwu]");
+        filemap.put("/wbl/tables","perms[wbl:table]");
+        filemap.put("/booth.html","perms[booth.html]");
         filemap.put("/logout", "logout");
         //设置拦截所有
-        //filemap.put("/**","authc");
+        filemap.put("/**","authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filemap);
         //设置拦截后的跳转页面
         shiroFilterFactoryBean.setLoginUrl("/toLogin");
