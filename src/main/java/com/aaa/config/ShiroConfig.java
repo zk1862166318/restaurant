@@ -38,8 +38,9 @@ public class ShiroConfig {
         filemap.put("/layui/**","anon");
         filemap.put("/layui_ext/**","anon");
         filemap.put("/upload/**","anon");
-        filemap.put("/zkq/**","anon");
-        filemap.put("/**/**","anon");
+        filemap.put("/zkq/**","anon");//zyg  item
+        filemap.put("/zyg/**","anon");
+        filemap.put("/item/**","anon");
         //
         filemap.put("/login","anon");
 

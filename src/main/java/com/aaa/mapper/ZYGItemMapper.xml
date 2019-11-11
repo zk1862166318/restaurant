@@ -5,6 +5,6 @@
 <select id="itemList" parameterType="Integer" resultType="Map">
  SELECT o.o_id,o.o_totalprice,o.o_time,o.o_deskNum,o.u_id,(SELECT m.m_name from menus m where m.m_id=
 (SELECT od.m_id from orderdetail od where od.o_id=o.o_id order by od.m_id asc LIMIT 1)) as mname,(SELECT m.m_img from menus m where m.m_id=
-(SELECT od.m_id from orderdetail od where od.o_id=o.o_id order by od.m_id asc LIMIT 1)) as mimg from orders o WHERE o.u_id=#{u_id} order by o.o_time ASC
+(SELECT od.m_id from orderdetail od where od.o_id=o.o_id order by od.m_id asc LIMIT 1)) as mimg from orders o WHERE o.u_id=#{u_id} order by o.o_time desc
 </select>
 </mapper>
