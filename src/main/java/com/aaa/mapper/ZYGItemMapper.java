@@ -8,4 +8,7 @@ import java.util.Map;
 @Mapper
 public interface ZYGItemMapper {
     public List<Map> itemList(Integer uid);
+    public int selOd(int oid);
+    public int selOdw(int oid);
+    public int selCmp(int oid);
 }

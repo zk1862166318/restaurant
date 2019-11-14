@@ -39,6 +39,8 @@ public class ShiroConfig {
         filemap.put("/layui_ext/**","anon");
         filemap.put("/upload/**","anon");
         filemap.put("/login","anon");
+        filemap.put("/item/ItemList","anon" );
+        filemap.put("/item/showCmp","anon");
 
         //授权
         filemap.put("/user/query","perms[user:query]");
@@ -53,6 +55,7 @@ public class ShiroConfig {
         filemap.put("/wbl/caiwu","perms[wbl:caiwu]");
         filemap.put("/wbl/tables","perms[wbl:table]");
         filemap.put("/booth.html","perms[booth.html]");
+
         filemap.put("/logout", "logout");
         //设置拦截所有
         filemap.put("/**","authc");

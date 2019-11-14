@@ -17,4 +17,19 @@ public class ZYGItemServiceImpl implements ZYGItemService {
     public List<Map> itemList(Integer uid) {
         return ZYGItemMapper.itemList(uid);
     }
+
+    @Override
+    public int selOd(int oid) {
+        return ZYGItemMapper.selOd(oid);
+    }
+
+    @Override
+    public int selOdw(int oid) {
+        return ZYGItemMapper.selOdw(oid);
+    }
+
+    @Override
+    public int selCmp(int oid) {
+        return ZYGItemMapper.selCmp(oid);
+    }
 }

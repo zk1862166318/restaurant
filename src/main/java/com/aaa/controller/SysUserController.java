@@ -383,4 +383,5 @@ public class SysUserController {
         result.setMsg("授权成功！");
         return result;
     }
+
 }

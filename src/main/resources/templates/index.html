@@ -40,18 +40,19 @@
 
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo">餐厅管理系统</div>
+        <div class="layui-logo">  <img th:src="@{/images/0.png}"  class="layui-nav-img"/>餐厅管理系统</div>
 
         <!--退出部分-->
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item" >
                 <a href="javascript:" th:text="${activeUser.getUsercode()}">
                     <!--<img src="http://t.cn/RCzsdCq" class="layui-nav-img">-->
-                </a>
-                <!--<dl class="layui-nav-child">-->
-                    <!--<dd><a href="">基本资料</a></dd>-->
+                  </a>
+                <dl class="layui-nav-child">-->
+                    <!--<dd><a href="javascript:void(0);">修改密码</a></dd>-->
+
                     <!--<dd><a href="">安全设置</a></dd>-->
-                <!--</dl>-->
+                </dl>
             </li>
             <li class="layui-nav-item"><a href="logout">退出</a></li>
         </ul>

@@ -7,4 +7,13 @@
 (SELECT od.m_id from orderdetail od where od.o_id=o.o_id order by od.m_id asc LIMIT 1)) as mname,(SELECT m.m_img from menus m where m.m_id=
 (SELECT od.m_id from orderdetail od where od.o_id=o.o_id order by od.m_id asc LIMIT 1)) as mimg from orders o WHERE o.u_id=#{u_id} order by o.o_time ASC
 </select>
+ <select id="selOd" parameterType="int" resultType="int">
+  select count(*) from orderdetail where o_id=#{oid}
+ </select>
+ <select id="selOdw" parameterType="int" resultType="int">
+ select count(*) from orderdetail where l_state=1 and o_id=#{oid}
+ </select>
+ <select id="selCmp" parameterType="int" resultType="int">
+ select count(*) from comments where o_id=#{oid}
+ </select>
 </mapper>
