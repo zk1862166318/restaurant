@@ -297,5 +297,7 @@ select sys_role_id from sys_user_role WHERE sys_role_id=#{sys_role_id}
   <select id="findRoleAll" resultType="SysRole">
     select * from sys_role where available=0
   </select>
-
+<update id="updatePwd" parameterType="SysUser">
+update sys_user set password=#{password},salt=#{salt} where usercode=#{usercode}
+</update>
 </mapper>

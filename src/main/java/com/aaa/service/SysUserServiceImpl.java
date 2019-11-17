@@ -213,5 +213,11 @@ public class SysUserServiceImpl implements SysUserService {
         return sysUserMapper.findRoleAll();
     }
 
+    @Override
+    public int updatePwd(SysUser sysUser) {
+
+        return  sysUserMapper.updatePwd(sysUser);
+    }
+
 
 }

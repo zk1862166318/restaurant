@@ -1,5 +1,6 @@
 package com.aaa.controller;
 
+import com.aaa.config.UserCredentialsMatcher;
 import com.aaa.dtree.CheckArr;
 import com.aaa.dtree.DTree;
 import com.aaa.dtree.DTreeResponse;
@@ -37,6 +38,7 @@ public class SysUserController {
 
     @Autowired
     private SysUserService sysUserService;
+
 
     @RequestMapping("index")
     public String index(Model model) {
@@ -383,5 +385,51 @@ public class SysUserController {
         result.setMsg("授权成功！");
         return result;
     }
+    @RequestMapping("updPwd")
+    public String updPwd(String usercode,Model model){
+        model.addAttribute("usercode",usercode);
+        return "sysuser/updPwd";
+    }
+    @RequestMapping("checkOld")
+    @ResponseBody
+    public Map<String,Object> checkOld(String oldPwd,String usercode){
+       Map<String,Object> map=new HashMap<>();
+        Subject subject=SecurityUtils.getSubject();
+        UsernamePasswordToken token=new UsernamePasswordToken(usercode,oldPwd);
+        boolean flag = true;
+        String msg = "";
+        try {
+            subject.login(token);
+            map.put("msg",msg);
+            map.put("flag",flag);
 
+        } catch (IncorrectCredentialsException e) {
+            e.printStackTrace();
+            msg="密码输入不正确,请重新输入";
+            map.put("msg",msg);
+            map.put("flag",false);
+
+        }finally {
+            JSONObject result = new JSONObject(map);
+            return result;
+        }
+
+    }
+        @RequestMapping("xiugaiPwd")
+        @ResponseBody
+    public Map<String,Object> xiugaiPwd(String newPwd,String usercode){
+            Map<String,Object> map=new HashMap<>();
+            String salt=UserCredentialsMatcher.generateSalt(6);
+            String md5pwd=UserCredentialsMatcher.encryptPassword("MD5",newPwd,salt,1);
+            SysUser sysUser=new SysUser();
+            sysUser.setUsercode(usercode);
+            sysUser.setPassword(md5pwd);
+            sysUser.setSalt(salt);
+            sysUserService.updatePwd(sysUser);
+            map.put("msg","密码修改成功");
+            map.put("flag",true);
+            JSONObject result = new JSONObject(map);
+            System.out.println(result);
+            return result;
+        }
 }

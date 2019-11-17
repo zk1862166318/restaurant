@@ -49,7 +49,9 @@
                     <!--<img src="http://t.cn/RCzsdCq" class="layui-nav-img">-->
                   </a>
                 <dl class="layui-nav-child">-->
-                    <!--<dd><a href="javascript:void(0);">修改密码</a></dd>-->
+                    <dd><a href="javascript:void(0);" id="upd">
+                        <input type="hidden" th:value="${activeUser.getUsercode()}" id="up">
+                        修改密码</a></dd>
 
                     <!--<dd><a href="">安全设置</a></dd>-->
                 </dl>
@@ -87,7 +89,8 @@
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
-                    <h1>欢迎登录</h1>
+                    <image th:src="@{/images/1.PNG}" style="width:1200px;height:400px;"></image>
+                    <h1 style="position:absolute;margin-left:540px;margin-top:-200px;">欢&nbsp;迎&nbsp;登&nbsp;录</h1>
                 </div>
             </div>
         </div>
@@ -101,5 +104,31 @@
 </div>
 </body>
 </html>
+<script >
+    layui.use(['table','layer','form'], function() {
+        var table = layui.table;
+        var layer = layui.layer;
+        var form = layui.form;
+        var usercode=$("#up").val();
+            console.log(usercode);
+        $('#upd').on('click',function () {
+            layer.open({
+                title: '密码修改',
+                type: 2,
+                content: 'updPwd?usercode='+usercode,    // 设置跳转的url，跳转到对应的页面
+                area: ['400px','400px'],
+
+                yes: function (index,layero) {
+
+                    var formSubmit=layer.getChildFrame('form', index);
+
+                    submited.click();
+
+
+                }
+            });
+        });
+    })
+    </script>
 
 

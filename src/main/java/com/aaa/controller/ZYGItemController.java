@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,17 +21,5 @@ public class ZYGItemController {
 
         return item;
     };
-    @RequestMapping("showCmp")
-    @ResponseBody
-    public Map showCmp(int oid){
-            Map map=new HashMap();
-            int all = ZYGItemService.selOd(oid);
-            int part= ZYGItemService.selOdw(oid);
-        int sc = ZYGItemService.selCmp(oid);
-        map.put("all",all);
-            map.put("part",part);
-            map.put("sc",sc);
-            return map;
 
-    }
 }

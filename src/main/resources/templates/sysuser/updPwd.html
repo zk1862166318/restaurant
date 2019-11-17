@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户添加</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/jquery-3.1.1.js}"></script>
+    <style>
+        .layui-form-item .layui-input{
+            width:195px;
+        }
+    </style>
+</head>
+<body>
+<br>
+<br>
+<form class="layui-form" action="" lay-filter="example">
+    <input type="hidden"  th:value="${usercode}" id="usercode">
+    <div class="layui-form-item">
+        <label class="layui-form-label">原始密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="password" maxlength="6" lay-verify="title" autocomplete="off" placeholder="请输入原始密码" class="layui-input" id="oldPwd">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">新密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="password" maxlength="6" lay-verify="title" autocomplete="off" placeholder="请输入新密码" class="layui-input" id="mima">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">确认密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="password" maxlength="6" lay-verify="title" autocomplete="off" placeholder="请再次输入密码" class="layui-input" id="newPwd">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">修改密码</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.use('form', function() {
+        var form = layui.form;
+        var usercode=$("#usercode").val();
+
+        form.on('submit(demo1)', function (data) {
+            var npwd=$("#newPwd").val();
+            $.post("xiugaiPwd",{'usercode':usercode,'newPwd':npwd},function (result) {
+                if(result.flag==true){
+                    layer.msg(result.msg, {
+                        icon: 1,
+                        time: 1000
+                    }, function(){
+                        var index=parent.layer.getFrameIndex(window.name); //获取当前窗口的name
+                        parent.layer.close(index);		//关闭窗口
+                        parent.window.location.reload();
+                    });
+
+                }
+
+
+            });
+            return false;
+        });
+        $("#oldPwd").on('blur',function () {
+            var opwd=$("#oldPwd").val();
+            $.post("checkOld",{'oldPwd':opwd,"usercode":usercode},function (result) {
+                if(result.flag==false){
+                    layer.msg(result.msg, {
+                        icon: 7,
+                        time: 1000
+                    },function () {
+                        $("#oldPwd").focus();
+                    })
+                }
+            });
+        });
+        //校验密码：只能输入6-20个字母、数字、下划线
+        $("#mima").on('blur',function () {
+            var mima=$("#mima").val().trim();
+            var reg=/^\d{6}$/;
+            if(!reg.test(mima)){
+
+                layer.msg('密码格式不正确',{
+                    icon:7,
+                    time:1000
+                });
+                return false;
+            }
+        })
+        $("#newPwd").on('blur',function () {
+            var mima=$("#mima").val().trim();
+            var newPwd=$("#newPwd").val();
+            if(newPwd!=mima){
+                layer.msg('确认密码输入有误,请重新输入',{
+                    icon:7,
+                    time:1000
+                });
+                return false;
+            }
+        })
+        //自定义验证规则
+        // form.verify({
+        //     title: function(value){
+        //         if(value.length < 2){
+        //             return '密码至少得6-18个字符啊';
+        //         }
+        //     }
+        //     ,content: function(value){
+        //         layedit.sync(editIndex);
+        //     }
+        // });
+
+    })
+</script>
+<script>
+
+</script>
+</body>
+</html>

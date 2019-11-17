@@ -42,4 +42,6 @@ public interface SysUserMapper {
     int changeState(SysUser su);
     int changeRoleState(SysRole sr);
     List<SysRole> findRoleAll();
+    //修改密码部分
+    int updatePwd(SysUser sysUser);
 }

@@ -44,5 +44,7 @@ public interface SysUserService {
     void addSysRolePermission(List<SysRolePermission> sprlist);
     //
     List<SysRole> findRoleAll();
+    //修改密码
+    int updatePwd(SysUser sysUser);
 
 }
