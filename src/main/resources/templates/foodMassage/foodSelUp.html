@@ -26,10 +26,30 @@
     #popUpdateTest{
         margin: 10px;
     }
+    .foodTitle{
+        width: 200px;
+    }
+    .demoTable{
+        margin-top: 10px;
+    }
 </style>
 
 
 <body id="body">
+    <div class="demoTable">
+        请选择类型：
+        <div class="layui-inline">
+            <div class="layui-form layui-form-pane" style="width: 200px;">
+                <select name="tname" id="tname" lay-verify="required" lay-filter="change"></select>
+            </div>
+        </div>
+        菜品名称:
+        <div class="layui-inline">
+            <input id="foodTitle" name="foodTitle" class="layui-input foodTitle" autocomplete="off" placeholder="请输入菜品名称" >
+        </div>
+        <button class="layui-btn layui-btn-radius" data-type="reload">搜索</button>
+    </div>
+
     <table class="layui-hide" id="test" lay-filter="table"></table>
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -37,20 +57,35 @@
     </script>
 </body>
 <script>
+    var img = null;
+    var m_name = null;
+    var tid = 0;
     layui.use(['table','layer','form','upload'], function(){
         var $ = layui.$,
             table = layui.table,
             layer=layui.layer,
             form = layui.form;
         var upload = layui.upload;
-        var img = null;
-
+        $.ajax({
+            url:'type',
+            type:"post",
+            success:function (obj) {
+                var str = "";
+                var opt = "<option value=\"0\" selected>全部</option>";
+                for(var i in obj){
+                    str +="<option value="+obj[i].t_id+">"+obj[i].t_name+"</option>";
+                }
+                $("#tname").html(opt+str);
+                form.render("select");
+            }
+        });
         //表格数据
         table.render({
             elem: '#test'
+            ,id:"toTest"
             ,url:'foodSel?m_state=1'
             ,cols: [[
-                {field:'m_id', width:'5%', title: 'ID', sort: true,},
+                {field:'numbers', width:'5%', title: 'ID', sort: true,type:'numbers'},
                 {img:'m_img', width:'9%',title: '图片',templet:'<div><img src="/restaurant/upload/{{ d.m_img }}" ></div>'},
                 {field:'m_name', width:'18%', title: '菜品名称', sort: true},
                 {field:'m_price', width:'18%', title: '价格', sort: true},
@@ -70,8 +105,6 @@
             limits:[5,6,7,8,9],
             page: true
         });
-
-
         //监听行工具事件
         table.on('tool(table)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
@@ -85,7 +118,7 @@
                 var m_img = data.m_img;
                 //定义空的变量,将判断的图片路径赋值
                 var nm_img = null;
-                var image = "\\restaurant\\"+data.m_img;
+                var image = "\\restaurant\\upload\\"+data.m_img;
                 $("#demo1").attr("src",image);
                 //异步请求放入类型下拉框
                 $.ajax({
@@ -201,6 +234,26 @@
                 });
                 return false;
             }
+        });
+        //表格重载
+        window.tableReload = function () {
+            table.reload('toTest',{
+                where:{
+                    m_name:m_name,
+                    t_id:tid
+                }
+            });
+        }
+        //    监听下拉框事件
+        form.on('select(change)', function(obj){
+            tid = obj.value;
+            m_name=$('#foodTitle').val();
+            window.tableReload();
+        });
+        //    模糊查询
+        $('.layui-btn').on('click', function(){
+            m_name = $('#foodTitle').val();
+            window.tableReload();
         });
     });
 

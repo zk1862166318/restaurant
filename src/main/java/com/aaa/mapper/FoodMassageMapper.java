@@ -18,6 +18,6 @@ public interface FoodMassageMapper {
     public List<MenusDB> foodSel(Map map);
     public int foodUpd(Map map);
     public int stateUpd(Map map);
-    public int countAll(Integer m_state);
+    public int countAll(Map map);
     public int selName(String m_name);
 }

@@ -42,7 +42,6 @@ public class FoodMassageController {
         return "foodMassage/foodAdd";
     }
 
-
     @ResponseBody
     @RequestMapping("/uploading")
     public Map<String, Object> uploading(@RequestParam("file") MultipartFile file,HttpServletRequest request) {
@@ -107,15 +106,17 @@ public class FoodMassageController {
 
     @RequestMapping("/foodSel")
     @ResponseBody
-    public MenusVO foodSel(int limit, Integer page,Integer m_state) {
+    public MenusVO foodSel(int limit, Integer page,Integer m_state,String m_name,Integer t_id) {
         Map map = new HashMap();
         map.put("limit",limit);
         map.put("page",page);
         map.put("m_state",m_state);
         int start = (page-1)*limit;
         map.put("start",start);
+        map.put("m_name",m_name);
+        map.put("t_id",t_id);
+        int count = foodMassageService.countAll(map);
         List<MenusDB> order = foodMassageService.foodSel(map);
-        int count = foodMassageService.countAll(m_state);
         MenusVO menusVO = new MenusVO();
         menusVO.setCode(0);
         menusVO.setCount(count);
